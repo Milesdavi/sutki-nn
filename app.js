@@ -172,12 +172,26 @@ observeReveals();
 
 /* Клик по метке: закрыть все остальные баллуны, показать свой, поднять метку над остальными */
 function markerElementClick(el, markers, balloon, marker) {
+  /* если балун вылезает за край карты — подталкиваем его внутрь */
+  const clampBalloon = () => {
+    const mapEl = document.getElementById('flatMap');
+    if (!mapEl) return;
+    const mr = mapEl.getBoundingClientRect();
+    const r = balloon.getBoundingClientRect();
+    const pad = 8;
+    const dl = (mr.left + pad) - r.left;
+    const dr = r.right - (mr.right - pad);
+    if (dl > 0) balloon.style.transform = `translateX(calc(-50% + ${Math.round(dl)}px))`;
+    else if (dr > 0) balloon.style.transform = `translateX(calc(-50% - ${Math.round(dr)}px))`;
+    else balloon.style.transform = '';
+  };
   const open = () => {
     markers.forEach(m => { m.el.querySelector('.ym-balloon').hidden = true; if (m.marker !== marker) m.marker.update({ zIndex: 0 }); });
     balloon.hidden = false;
     marker.update({ zIndex: 1000 });
+    clampBalloon();
   };
-  const close = () => { balloon.hidden = true; marker.update({ zIndex: 0 }); };
+  const close = () => { balloon.hidden = true; balloon.style.transform = ''; marker.update({ zIndex: 0 }); };
 
   el.querySelector('.pin-price').addEventListener('click', e => {
     e.stopPropagation();
@@ -191,13 +205,13 @@ function markerElementClick(el, markers, balloon, marker) {
 
 /* ---------- Карта квартир (Яндекс.Карты, JS API 3.0) ---------- */
 const FLAT_COORDS = {
-  'gorkogo-1-3rooms':    [56.31595, 43.99190],
-  'gorkogo-1-2rooms':    [56.31520, 43.99260],
-  'zvezdinka-3-2rooms':  [56.31463, 43.99375],
+  'gorkogo-1-3rooms':    [56.31573, 43.99219],
+  'gorkogo-1-2rooms':    [56.31579, 43.99233],
+  'zvezdinka-3-2rooms':  [56.31469, 43.99375],
   'belinskogo-47-2rooms':[56.31384, 44.01035],
   'svobody-4-kreml':     [56.31892, 44.01477],
   'gorkogo-153-1room':   [56.31868, 44.01943],
-  'bolshaya-pokrovskaya-75': [56.31629, 44.01043]
+  'bolshaya-pokrovskaya-75': [56.31173, 43.98813]
 };
 
 if (document.getElementById('flatMap') && window.ymaps3) {
@@ -205,7 +219,7 @@ if (document.getElementById('flatMap') && window.ymaps3) {
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker} = ymaps3;
 
     const map = new YMap(document.getElementById('flatMap'), {
-      location: { center: [44.0030, 56.3155], zoom: 15 },
+      location: { center: [44.0038, 56.3148], zoom: 15 },
       showScaleInCopyrights: true
     }, [
       new YMapDefaultSchemeLayer({}),
@@ -227,7 +241,10 @@ if (document.getElementById('flatMap') && window.ymaps3) {
           <div class="popup-title">${f.title}</div>
           <div class="popup-loc">📍 ${f.loc}</div>
           <b style="color:var(--brand)">${fmt(f.price)} ₽ / сутки</b>
-          <a class="ym-balloon-go" href="flat.html?id=${f.id}">Открыть →</a>
+          <div class="ym-balloon-actions">
+            <a class="ym-balloon-go" href="flat.html?id=${f.id}">Открыть →</a>
+            <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Маршрут →</a>
+          </div>
         </div>`;
 
       const balloon = el.querySelector('.ym-balloon');
