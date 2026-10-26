@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Квартира посуточно — Сутки.НН</title>
+<meta name="description" content="Квартира посуточно в Нижнем Новгороде: фото, цены, удобства и бронирование без предоплаты.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="flat-page">
+
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="index.html">
+      <span class="logo-mark">С</span>
+      <span class="logo-text">Сутки<em>.НН</em></span>
+    </a>
+    <div class="header-actions">
+      <a class="phone" href="tel:+79056698580">+7 905 669-85-80</a>
+      <a class="hs" href="https://t.me/Natali101219" target="_blank" rel="noopener" title="Telegram"><img src="img/ic-tg.svg" alt="Telegram"></a>
+      <a class="hs" href="https://wa.me/79056698580" target="_blank" rel="noopener" title="WhatsApp"><img src="img/ic-wa.svg" alt="WhatsApp"></a>
+      <a class="hs" href="https://vk.me/id317914778" target="_blank" rel="noopener" title="ВКонтакте"><img src="img/ic-vk.svg" alt="ВКонтакте"></a>
+    </div>
+  </div>
+</header>
+
+<main id="flatRoot">
+  <div class="container">
+    <nav class="crumbs"><a href="index.html">Главная</a> <span>→</span> <span id="crumbType">Квартира</span></nav>
+
+    <div class="flat-layout">
+      <!-- Левая колонка -->
+      <div class="flat-main">
+        <h1 class="flat-title" id="fTitle">Квартира</h1>
+        <p class="flat-loc-line" id="fLocLine"></p>
+
+        <!-- Большая галерея -->
+        <div class="gallery slider" id="gallery" data-slider></div>
+        <div class="g-thumbs" id="gThumbs"></div>
+
+        <section class="flat-block">
+          <h2>Об этой квартире</h2>
+          <p class="flat-desc" id="fDesc"></p>
+        </section>
+
+        <section class="flat-block">
+          <h2>Удобства</h2>
+          <div class="flat-feats" id="fFeats"></div>
+        </section>
+
+        <section class="flat-block">
+          <h2>Условия проживания</h2>
+          <ul class="flat-rules">
+            <li>🕒 Заезд с 14:00, выезд до 12:00 — ранний заезд и поздний выезд бесплатно, если квартира свободна</li>
+            <li>🔒 Замок с кодовом замком: заселение в любое время без встреч</li>
+            <li>💳 Оплата при заезде: картой, наличными или переводом. Без предоплаты</li>
+            <li>🧾 Чек и закрывающие документы для командировки — в день заезда</li>
+            <li>🚭 Курение запрещено. Животные — по согласованию</li>
+            <li>🧹 Горничная после каждого гостя, свежее бельё и полотенца</li>
+          </ul>
+        </section>
+      </div>
+
+      <!-- Правая колонка: бронирование -->
+      <aside class="flat-side">
+        <div class="book-card">
+          <div class="book-price"><b id="fPrice">—</b><span> / сутки</span></div>
+          <div class="book-rating" id="fRating"></div>
+          <form id="bookForm" autocomplete="off">
+            <label class="field"><span>Ночей</span>
+              <select id="bNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>14</option><option>30</option></select>
+            </label>
+            <div class="book-total" id="bTotal"></div>
+            <button type="submit" class="btn btn-primary btn-block">Забронировать</button>
+            <p class="form-note">Без предоплаты · отмена без штрафа за 24 часа</p>
+          </form>
+          <div class="book-contacts">
+            <a href="tel:+79056698580">📞 +7 905 669-85-80</a>
+            <a href="https://t.me/Natali101219" target="_blank" rel="noopener"><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram"> Telegram: @Natali101219</a>
+            <a href="https://wa.me/79056698580" target="_blank" rel="noopener"><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp"> WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="book-mini">
+          <p>📏 <span id="fArea"></span></p>
+          <p>🛏 <span id="fBeds"></span></p>
+          <p>🚇 <span id="fMetro"></span></p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Похожие квартиры -->
+    <section class="flat-similar">
+      <h2>Похожие квартиры</h2>
+      <div class="cards" id="similarCards"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="logo"><span class="logo-mark">С</span><span class="logo-text">Сутки<em>.НН</em></span></div>
+    <p>© 2026 «Сутки.НН» — посуточная аренда квартир в Нижнем Новгороде. Демо-сайт, цены и квартиры вымышлены.</p>
+  </div>
+</footer>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="photos-list.js"></script>
+<script src="data.js"></script>
+<script src="slider.js"></script>
+<script src="contact.js"></script>
+<script src="flat.js"></script>
+</body>
+</html>

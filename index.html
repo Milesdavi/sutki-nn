@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сутки.НН — посуточная аренда квартир в Нижнем Новгороде</title>
+<meta name="description" content="Аренда квартир посуточно в Нижнем Новгороде: студии и квартиры у Кремля, на Покровке, у стадиона и в центре. Онлайн-бронирование, честные цены, без посредников.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container header-inner">
+    <a class="logo" href="#top">
+      <span class="logo-mark">С</span>
+      <span class="logo-text">Сутки<em>.НН</em></span>
+    </a>
+    <nav class="nav" id="nav">      <a href="#catalog">Квартиры</a>
+      <a href="#advantages">Почему мы</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="header-actions">
+      <a class="phone" href="tel:+79056698580">+7 905 669-85-80</a>
+      <a class="hs" href="https://t.me/Natali101219" target="_blank" rel="noopener" title="Telegram"><img src="img/ic-tg.svg" alt="Telegram"></a>
+      <a class="hs" href="https://wa.me/79056698580" target="_blank" rel="noopener" title="WhatsApp"><img src="img/ic-wa.svg" alt="WhatsApp"></a>
+      <a class="hs" href="https://vk.me/id317914778" target="_blank" rel="noopener" title="ВКонтакте"><img src="img/ic-vk.svg" alt="ВКонтакте"></a>
+      <button class="btn btn-primary btn-sm" data-scroll="#booking">Забронировать</button>
+      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-shape hero-shape-1"></div>
+      <div class="hero-shape hero-shape-2"></div>
+      <div class="hero-shape hero-shape-3"></div>
+    </div>
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">🏙️ Нижний Новгород · без посредников</div>
+        <h1 class="hero-title">Квартиры посуточно<br class="br-mobile-hide"> в <span class="accent">Нижнем Новгороде</span></h1>
+        <p class="hero-sub">Заселение за 5 минут, честные цены и 7 проверенных квартир в самом центре города. Удобно для командировки, отпуска или выходных на Стрелке.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-lg" data-scroll="#catalog">Выбрать квартиру</button>
+          <button class="btn btn-ghost btn-lg" data-scroll="#booking">Быстрое бронирование</button>
+        </div>
+        <ul class="hero-points">
+          <li>✓ От 2 700 ₽ / сутки</li>
+          <li>✓ Отчётные документы</li>
+          <li>✓ Бесконтактный заезд 24/7</li>
+        </ul>
+      </div>
+      <form class="search-card" id="searchForm" autocomplete="off">
+        <h3 class="search-title">Найти квартиру</h3>
+        <label class="field">
+          <span>Гостей</span>
+          <select id="guests">
+            <option value="1">1 гость</option>
+            <option value="2" selected>2 гостя</option>
+            <option value="3">3 гостя</option>
+            <option value="4">4 гостя</option>
+            <option value="5">5+ гостей</option>
+          </select>
+        </label>
+        <button type="submit" class="btn btn-primary btn-block">Показать варианты</button>
+        <p class="search-note">Бронирование без предоплаты · отмена за 24 часа</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat"><b data-count="7">0</b><span>квартир в центре города</span></div>
+      <div class="stat"><b data-count="9.8" data-decimal="1">0</b><span>средняя оценка гостей</span></div>
+      <div class="stat"><b data-count="12">0</b><span>лет сдаём без посредников</span></div>
+      <div class="stat"><b data-count="15" data-suffix=" мин">0</b><span>средняя скорость ответа</span></div>
+    </div>
+  </section>
+
+  <!-- CATALOG -->
+  <section class="section" id="catalog">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Каталог квартир</h2>
+          <p class="section-sub">Все квартиры проверены лично: чистое бельё, работающая техника, вид из окна как на фото.</p>
+        </div>
+      </div>
+
+      <div class="filters" id="filters">
+        <button class="chip active" data-filter="all">Все</button>
+        <button class="chip" data-filter="1">1-комнатные</button>
+        <button class="chip" data-filter="2">2-комнатные</button>
+        <button class="chip" data-filter="3">3-комнатные</button>
+        <button class="chip" data-filter="family">Для семьи</button>
+        <button class="chip" data-filter="center">В центре</button>
+        <button class="chip" data-filter="kreml">Вид на Кремль</button>
+      </div>
+
+      <div class="cards" id="cards"><!-- карточки рендерит app.js --></div>
+      <p class="empty" id="empty" hidden>Ничего не нашлось — попробуйте другой фильтр.</p>
+    </div>
+  </section>
+
+  <!-- ADVANTAGES -->
+  <section class="section section-alt" id="advantages">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Почему бронировать у нас</h2>
+          <p class="section-sub">Мы — собственник, а не агрегатор. Поэтому отвечаем за каждую квартиру сами.</p>
+        </div>
+      </div>
+      <div class="adv-grid">
+        <article class="adv">
+          <div class="adv-icon">⚡</div>
+          <h3>Заселение за 5 минут</h3>
+          <p>Замок с кодом: заезжайте ночью или в 6 утра. Никаких встреч и передач ключей.</p>
+        </article>
+        <article class="adv">
+          <div class="adv-icon">🧾</div>
+          <h3>Документы для отчёта</h3>
+          <p>Чек и закрывающие документы для командировки — в день заезда, без напоминаний.</p>
+        </article>
+        <article class="adv">
+          <div class="adv-icon">🧽</div>
+          <h3>Горничная после каждого гостя</h3>
+          <p>Свежее бельё, полотенца, дозаторы с гелем — как в отеле, только просторнее.</p>
+        </article>
+        <article class="adv">
+          <div class="adv-icon">💳</div>
+          <h3>Без предоплаты</h3>
+          <p>Бронируйте сейчас, платите при заезде. Отмена без штрафа за сутки до заезда.</p>
+        </article>
+        <article class="adv">
+          <div class="adv-icon">📍</div>
+          <h3>Только центр и метро</h3>
+          <p>Все квартиры — в пешей доступности от Кремля, Покровки и станций метро.</p>
+        </article>
+        <article class="adv">
+          <div class="adv-icon">☎️</div>
+          <h3>Поддержка 24/7</h3>
+          <p>Что-то сломалось в 2 ночи? Приедем и решим. Средняя скорость ответа — 15 минут.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title center">Как проходит бронирование</h2>
+      <div class="steps">
+        <div class="step"><span class="step-num">1</span><h3>Выбираете даты</h3><p>Указываете заезд и выезд — калькулятор сразу покажет итоговую цену.</p></div>
+        <div class="step"><span class="step-num">2</span><h3>Подтверждаем за 15 минут</h3><p>Пишем в мессенджер или звоним и подтверждаем бронь.</p></div>
+        <div class="step"><span class="step-num">3</span><h3>Заезжаете по коду</h3><p>Код от замка придёт в день заезда. Заселение — в любое время суток.</p></div>
+        <div class="step"><span class="step-num">4</span><h3>Отдыхаете</h3><p>Выезд до 12:00, поздний выезд — по договорённости бесплатно.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="section section-alt" id="reviews">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Отзывы гостей</h2>
+          <p class="section-sub">Средняя оценка 9.8 из 10 по 1 400+ отзывам за 2024 год.</p>
+        </div>
+      </div>
+      <div class="reviews-grid">
+        <article class="review">
+          <div class="review-head"><div class="avatar" style="background:#E4572E">А</div><div><b>Анна</b><span>Командировка · Казань</span></div><div class="stars">★★★★★</div></div>
+          <p>«Приехала в 23:40, заехала по коду за пару минут. Квартира как на фото, постель пахнет свежестью. Чек для отчёта прислали утром.»</p>
+        </article>
+        <article class="review">
+          <div class="review-head"><div class="avatar" style="background:#2E86AB">Д</div><div><b>Дмитрий</b><span>С семьёй · Москва</span></div><div class="stars">★★★★★</div></div>
+          <p>«Брали двухкомнатную у Кремля. Детская кроватка и стульчик для кормления были уже на месте — спросили заранее и подготовили.»</p>
+        </article>
+        <article class="review">
+          <div class="review-head"><div class="avatar" style="background:#5C8B82">О</div><div><b>Ольга</b><span>Выходные · СПб</span></div><div class="stars">★★★★★</div></div>
+          <p>«Вид с панорамного окна — просто восторг, особенно вечером. Пешком до Покровки минут пять. Обязательно вернёмся.»</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container container-narrow">
+      <h2 class="section-title center">Частые вопросы</h2>
+      <div class="faq" id="faqList">
+        <details class="faq-item">
+          <summary>Нужна ли предоплата?<span class="faq-arrow">▾</span></summary>
+          <p>Нет. Бронь фиксируется по телефону или в мессенджере, оплата — при заезде: картой, наличными или переводом.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Во сколько заезд и выезд?<span class="faq-arrow">▾</span></summary>
+          <p>Заселение с 14:00, выезд до 12:00. Но замок с кодом позволяет заехать в любое время — ранний заезд и поздний выезд согласуем бесплатно, если квартира свободна.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Можно с животными?<span class="faq-arrow">▾</span></summary>
+          <p>В части квартир — да, это отмечено в карточке. Размещение питомца бесплатно, но просим предупредить заранее.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Даёте ли документы для отчёта?<span class="faq-arrow">▾</span></summary>
+          <p>Да, работаем официально: чек, акт и счёт для командировки присылаем в день заезда или позже — как удобно.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Что если что-то сломается?<span class="faq-arrow">▾</span></summary>
+          <p>Пишите в поддержку круглосуточно. Мелкие вопросы решаем по видео, по серьёзным — приедем в течение часа или переселим в соседнюю квартиру.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Есть ли скидка при долгом сроке?<span class="faq-arrow">▾</span></summary>
+          <p>Да: от 7 ночей — скидка 10%, от месяца — до 25%. Итоговую цену покажет калькулятор в карточке квартиры.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="section section-dark" id="booking">
+    <div class="container booking-inner">
+      <div class="booking-text">
+        <h2 class="section-title light">Быстрое бронирование</h2>
+        <p class="section-sub light">Нажмите «Забронировать» — подберём квартиру и перезвоним вам.</p>
+        <ul class="booking-points">
+          <li>📞 <a href="tel:+79056698580">+7 905 669-85-80</a> — круглосуточно</li>
+          <li><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram"> Telegram: <a href="https://t.me/Natali101219"><b>@Natali101219</b></a></li>
+          <li><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp"> WhatsApp: <a href="https://wa.me/79056698580"><b>+7 905 669-85-80</b></a></li>
+          <li>📍 Большая Покровская, 75</li>
+        </ul>
+      </div>
+      <form class="booking-form" id="bookForm" autocomplete="off">
+        <label class="field"><span>Имя</span><input type="text" id="bName" placeholder="Как к вам обращаться" required></label>
+        <label class="field"><span>Телефон</span><input type="tel" id="bPhone" placeholder="+7 (___) ___-__-__" required></label>
+        <label class="field"><span>Ночей</span><select id="bNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>14</option><option>30</option></select></label>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Забронировать</button>
+        <p class="form-note">Нажимая кнопку, вы соглашаетесь с политикой обработки данных.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section class="section" id="contacts">
+    <div class="container contacts-grid">
+      <div class="contacts-info">
+        <h2 class="section-title">Квартиры на карте</h2>
+        <p class="contacts-line">Все 7 квартир — в пешей доступности друг от друга и от исторического центра. Две из них в одном доме на площади Горького. Нажмите на точку, чтобы увидеть цену и открыть бронь.</p>
+        <div class="map-wrap"><div id="flatMap"></div></div>
+        <h2 class="section-title" style="margin-top:34px">Контакты</h2>
+        <p class="contacts-line">📞 <a href="tel:+79056698580">+7 905 669-85-80</a></p>
+        <p class="contacts-line"><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram"> Telegram: <a href="https://t.me/Natali101219">@Natali101219</a></p>
+        <p class="contacts-line"><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp"> WhatsApp: <a href="https://wa.me/79056698580">+7 905 669-85-80</a></p>
+        <p class="contacts-line">📍 Нижний Новгород, Большая Покровская, 75</p>
+        <p class="contacts-line">🕒 Поддержка гостей — круглосуточно</p>
+      </div>
+      <div class="contacts-side">
+        <div class="contacts-card">
+          <h3>Площадь Горького, 1 — две квартиры</h3>
+          <p>3-комнатная на 4 этаже и 2-комнатная на 5 этаже в одном подъезде. Большая Покровская и Кремль в двух шагах.</p>
+        </div>
+        <div class="contacts-card">
+          <h3>Звездинка и площадь Свободы</h3>
+          <p>Тихий исторический центр: 10 минут пешком до Кремля и Чкаловской лестницы.</p>
+        </div>
+        <div class="contacts-card">
+          <h3>Улицы Горького и Белинского</h3>
+          <p>Дома 153 и 47 — рядом Верхневолжская набережная с видом на Стрелку.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="logo"><span class="logo-mark">С</span><span class="logo-text">Сутки<em>.НН</em></span></div>
+    <p>© 2026 «Сутки.НН» — посуточная аренда квартир в Нижнем Новгороде. Демо-сайт, цены и квартиры вымышлены.</p>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-close" data-close aria-label="Закрыть">✕</button>
+    <div class="modal-gallery">
+      <img id="mImg" src="" alt="">
+      <div class="modal-thumbs" id="mThumbs"></div>
+    </div>
+    <div class="modal-body">
+      <h3 id="mTitle"></h3>
+      <p class="modal-loc" id="mLoc"></p>
+      <div class="modal-feats" id="mFeats"></div>
+      <p class="modal-desc" id="mDesc"></p>
+      <div class="modal-calc">
+        <div class="calc-row"><label>Ночей <select id="mNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>30</option></select></label></div>
+        <div class="calc-total" id="mTotal"></div>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" id="mBook">Забронировать эту квартиру</button>
+      <p class="form-note">Оплата при заезде · отмена без штрафа за 24 часа</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://api-maps.yandex.ru/v3/?apikey=f1e00c1d-72c6-45f5-abe2-8d5a169cfa6f&lang=ru_RU"></script>
+<script src="photos-list.js"></script>
+<script src="data.js"></script>
+<script src="slider.js"></script>
+<script src="contact.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
