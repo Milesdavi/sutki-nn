@@ -206,13 +206,25 @@ function markerElementClick(el, markers, balloon, marker) {
 /* ---------- Карта квартир (Яндекс.Карты, JS API 3.0) ---------- */
 const FLAT_COORDS = {
   'gorkogo-1-3rooms':    [56.31573, 43.99219],
-  'gorkogo-1-2rooms':    [56.31579, 43.99233],
+  'gorkogo-1-2rooms':    [56.31573, 43.99219], /* тот же дом бд. Горького, 1 */
   'zvezdinka-3-2rooms':  [56.31469, 43.99375],
   'belinskogo-47-2rooms':[56.31384, 44.01035],
   'svobody-4-kreml':     [56.31892, 44.01477],
   'gorkogo-153-1room':   [56.31868, 44.01943],
   'bolshaya-pokrovskaya-75': [56.31173, 43.98813]
 };
+
+/* Группа: квартиры в одном доме — общий маркер с общим окном */
+function groupKey(f) { return f.loc.split('·')[0].trim(); }
+function flatGroups() {
+  const g = {};
+  FLATS.forEach(f => {
+    const c = FLAT_COORDS[f.id];
+    if (!c) return;
+    (g[groupKey(f)] = g[groupKey(f)] || []).push(f);
+  });
+  return Object.values(g);
+}
 
 if (document.getElementById('flatMap') && window.ymaps3) {
   ymaps3.ready.then(async () => {
@@ -228,24 +240,44 @@ if (document.getElementById('flatMap') && window.ymaps3) {
 
     const markers = []; /* все метки — чтобы закрывать чужие баллуны при клике */
 
-    FLATS.forEach(f => {
-      const c = FLAT_COORDS[f.id];
-      if (!c) return;
+    flatGroups().forEach(group => {
+      const c = FLAT_COORDS[group[0].id];
+      const multi = group.length > 1;
       /* в API 3.0 координаты в порядке [долгота, широта] */
       const el = document.createElement('div');
       el.className = 'ym-pin';
-      el.innerHTML = `
-        <div class="pin-price">${fmt(f.price)} ₽</div>
-        <div class="ym-balloon" hidden>
-          <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
-          <div class="popup-title">${f.title}</div>
-          <div class="popup-loc">📍 ${f.loc}</div>
-          <b style="color:var(--brand)">${fmt(f.price)} ₽ / сутки</b>
-          <div class="ym-balloon-actions">
-            <a class="ym-balloon-go" href="flat.html?id=${f.id}">Открыть →</a>
-            <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Маршрут →</a>
-          </div>
-        </div>`;
+      if (multi) {
+        const price = `${fmt(Math.min(...group.map(x => x.price)))}–${fmt(Math.max(...group.map(x => x.price)))} ₽`;
+        el.innerHTML = `
+          <div class="pin-price">${price}</div>
+          <div class="ym-balloon ym-balloon-multi" hidden>
+            <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
+            <div class="popup-title">${group[0].loc.split('·')[0].trim()}</div>
+            <div class="popup-loc">Две квартиры в одном доме</div>
+            ${group.map(x => `
+              <div class="ym-flat-row">
+                <b>${x.title}</b><span class="ym-flat-price">${fmt(x.price)} ₽</span>
+                <div class="ym-flat-buttons">
+                  <a class="ym-balloon-go" href="flat.html?id=${x.id}">Открыть →</a>
+                  <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Маршрут →</a>
+                </div>
+              </div>`).join('')}
+          </div>`;
+      } else {
+        const f = group[0];
+        el.innerHTML = `
+          <div class="pin-price">${fmt(f.price)} ₽</div>
+          <div class="ym-balloon" hidden>
+            <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
+            <div class="popup-title">${f.title}</div>
+            <div class="popup-loc">📍 ${f.loc}</div>
+            <b style="color:var(--brand)">${fmt(f.price)} ₽ / сутки</b>
+            <div class="ym-balloon-actions">
+              <a class="ym-balloon-go" href="flat.html?id=${f.id}">Открыть →</a>
+              <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Маршрут →</a>
+            </div>
+          </div>`;
+      }
 
       const balloon = el.querySelector('.ym-balloon');
       const marker = new YMapMarker({ coordinates: [c[1], c[0]], zIndex: 0 }, el);

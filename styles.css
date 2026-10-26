@@ -312,6 +312,15 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   text-decoration:none;white-space:nowrap;display:flex;align-items:center;
 }
 .ym-balloon-route:hover{background:var(--brand);color:#fff}
+/* Окно с несколькими квартирами в одном доме */
+.ym-balloon-multi{width:280px}
+.ym-flat-row{padding:10px 0 8px;border-top:1px solid var(--line);margin-top:8px}
+.ym-flat-row:first-of-type{border-top:none;margin-top:0}
+.ym-flat-row b{display:block;font-size:14px}
+.ym-flat-price{color:var(--brand);font-weight:800;font-size:14px}
+.ym-flat-buttons{display:flex;gap:8px;margin-top:6px}
+.ym-flat-buttons .ym-balloon-go{padding:7px 14px;font-size:13px}
+.ym-flat-buttons .ym-balloon-route{padding:5px 12px;font-size:12.5px}
 .popup-title{font-weight:800;font-size:15px;font-family:'Unbounded',sans-serif;margin-bottom:4px}
 .popup-loc{color:var(--muted);font-size:13px;margin-bottom:10px}
 .contacts-side{display:flex;flex-direction:column;gap:18px;justify-content:center}
