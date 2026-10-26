@@ -171,17 +171,13 @@ renderCards();
 observeReveals();
 
 /* Клик по метке: закрыть все остальные баллуны, показать свой, поднять метку над остальными */
-function markerElementClick(el, markers, balloon) {
+function markerElementClick(el, markers, balloon, marker) {
   const open = () => {
-    markers.forEach(m => {
-      m.el.querySelector('.ym-balloon').hidden = true;
-      m.el.style.zIndex = '';
-    });
+    markers.forEach(m => { m.el.querySelector('.ym-balloon').hidden = true; if (m.marker !== marker) m.marker.update({ zIndex: 0 }); });
     balloon.hidden = false;
-    el.querySelector('.ym-balloon').hidden = false;
-    el.style.zIndex = 1000;
+    marker.update({ zIndex: 1000 });
   };
-  const close = () => { balloon.hidden = true; el.querySelector('.ym-balloon').hidden = true; el.style.zIndex = ''; };
+  const close = () => { balloon.hidden = true; marker.update({ zIndex: 0 }); };
 
   el.querySelector('.pin-price').addEventListener('click', e => {
     e.stopPropagation();
@@ -235,11 +231,11 @@ if (document.getElementById('flatMap') && window.ymaps3) {
         </div>`;
 
       const balloon = el.querySelector('.ym-balloon');
-      const marker = new YMapMarker({ coordinates: [c[1], c[0]] }, el);
+      const marker = new YMapMarker({ coordinates: [c[1], c[0]], zIndex: 0 }, el);
       map.addChild(marker);
       markers.push({ el, marker });
 
-      markerElementClick(el, markers, balloon);
+      markerElementClick(el, markers, balloon, marker);
     });
   });
 }
