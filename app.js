@@ -170,6 +170,29 @@ function observeReveals() {
 renderCards();
 observeReveals();
 
+/* Клик по метке: закрыть все остальные баллуны, показать свой, поднять метку над остальными */
+function markerElementClick(el, markers, balloon) {
+  const open = () => {
+    markers.forEach(m => {
+      m.el.querySelector('.ym-balloon').hidden = true;
+      m.el.style.zIndex = '';
+    });
+    balloon.hidden = false;
+    el.querySelector('.ym-balloon').hidden = false;
+    el.style.zIndex = 1000;
+  };
+  const close = () => { balloon.hidden = true; el.querySelector('.ym-balloon').hidden = true; el.style.zIndex = ''; };
+
+  el.querySelector('.pin-price').addEventListener('click', e => {
+    e.stopPropagation();
+    balloon.hidden ? open() : close();
+  });
+  el.querySelector('.ym-balloon-close').addEventListener('click', e => {
+    e.stopPropagation();
+    close();
+  });
+}
+
 /* ---------- Карта квартир (Яндекс.Карты, JS API 3.0) ---------- */
 const FLAT_COORDS = {
   'gorkogo-1-3rooms':    [56.31595, 43.99190],
@@ -193,6 +216,8 @@ if (document.getElementById('flatMap') && window.ymaps3) {
       new YMapDefaultFeaturesLayer({})
     ]);
 
+    const markers = []; /* все метки — чтобы закрывать чужие баллуны при клике */
+
     FLATS.forEach(f => {
       const c = FLAT_COORDS[f.id];
       if (!c) return;
@@ -210,15 +235,11 @@ if (document.getElementById('flatMap') && window.ymaps3) {
         </div>`;
 
       const balloon = el.querySelector('.ym-balloon');
-      map.addChild(new YMapMarker(
-        { coordinates: [c[1], c[0]], onClick: () => { balloon.hidden = !balloon.hidden; } },
-        el
-      ));
+      const marker = new YMapMarker({ coordinates: [c[1], c[0]] }, el);
+      map.addChild(marker);
+      markers.push({ el, marker });
 
-      el.querySelector('.ym-balloon-close').addEventListener('click', e => {
-        e.stopPropagation();
-        balloon.hidden = true;
-      });
+      markerElementClick(el, markers, balloon);
     });
   });
 }
