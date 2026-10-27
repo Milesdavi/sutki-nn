@@ -49,25 +49,6 @@ const FLATS = [
     img: 'img/gorkogo-1-2rooms/01-комната.jpg',
   },
   {
-    id: 'zvezdinka-3-2rooms',
-    title: '2-комнатная на Звездинке',
-    type: '2-комнатная', rooms: '2', tags: ['center', 'family'],
-    loc: 'ул. Звездинка, 3 · центр города',
-    price: 3900, rating: 9.8, reviews: 64, guests: 5, area: 58, floor: '3 из 5',
-    beds: '5 спальных мест', metro: 'Горьковская — 10 мин пешком',
-    badges: ['Семейная'],
-    feats: ['Детская кроватка', '2 спальни', 'Стиралка', 'Игрушки', 'Wi-Fi 100 Мбит'],
-    desc: 'Уютная двушка в тихом историческом центре: 10 минут пешком до Кремля и Чкаловской лестницы. Детская кроватка и стульчик — по запросу, бесплатно. Есть детские игрушки и книги.',
-    img: 'img/family.svg',
-    photos: [
-      'img/family.svg',
-      'img/bedroom.svg',
-      'img/kids.svg',
-      'img/kitchen.svg',
-      'img/bathroom.svg'
-    ]
-  },
-  {
     id: 'belinskogo-47-2rooms',
     title: '2-комнатная на Белинского',
     type: '2-комнатная', rooms: '2', tags: ['center'],

@@ -207,7 +207,6 @@ function markerElementClick(el, markers, balloon, marker) {
 const FLAT_COORDS = {
   'gorkogo-1-3rooms':    [56.31573, 43.99219],
   'gorkogo-1-2rooms':    [56.31573, 43.99219], /* тот же дом бд. Горького, 1 */
-  'zvezdinka-3-2rooms':  [56.31469, 43.99375],
   'belinskogo-47-2rooms':[56.31384, 44.01035],
   'svobody-4-kreml':     [56.317912, 44.015796],
   'gorkogo-153-1room':   [56.31868, 44.01943],
