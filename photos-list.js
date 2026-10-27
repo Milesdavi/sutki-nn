@@ -40,6 +40,13 @@ const PHOTOS_DIRS = {
     'img/gorkogo-1-3rooms/08-вид-из-окна.jpg',
     'img/gorkogo-1-3rooms/09-вид-с-балкона.jpg'
   ],
+  'gorkogo-153-1room': [
+    'img/gorkogo-153-1room/01-спальня.jpg',
+    'img/gorkogo-153-1room/02-спальня-2.jpg',
+    'img/gorkogo-153-1room/03-кухня-зал.jpg',
+    'img/gorkogo-153-1room/04-кухня.jpg',
+    'img/gorkogo-153-1room/05-ванная.jpg'
+  ],
   'svobody-4-kreml': [
     'img/svobody-4-kreml/01-вид-на-кремль.jpg',
     'img/svobody-4-kreml/02-комната.jpg',
