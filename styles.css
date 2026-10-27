@@ -321,6 +321,9 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .ym-flat-buttons{display:flex;gap:8px;margin-top:6px}
 .ym-flat-buttons .ym-balloon-go{padding:7px 14px;font-size:13px}
 .ym-flat-buttons .ym-balloon-route{padding:5px 12px;font-size:12.5px}
+/* Пешая доступность до офиса гостей */
+.ym-walk{color:var(--muted);font-size:12.5px;margin-top:8px}
+.ym-walk-route{margin-top:8px;display:flex;width:100%;justify-content:center}
 .popup-title{font-weight:800;font-size:15px;font-family:'Unbounded',sans-serif;margin-bottom:4px}
 .popup-loc{color:var(--muted);font-size:13px;margin-bottom:10px}
 .contacts-side{display:flex;flex-direction:column;gap:18px;justify-content:center}

@@ -225,6 +225,22 @@ function flatGroups() {
   return Object.values(g);
 }
 
+/* «Как дойти до работы» — офис гостей (Транснефть): Решетниковская, 4 */
+const WALK_TARGET = {
+  name: 'Решетниковская, 4',
+  coords: [56.31557, 44.00231]
+};
+function walkInfo(c) {
+  const R = 6371000, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(WALK_TARGET.coords[0] - c[0]);
+  const dLng = toRad(WALK_TARGET.coords[1] - c[1]);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(c[0])) * Math.cos(toRad(WALK_TARGET.coords[0])) * Math.sin(dLng/2)**2;
+  const d = 2 * R * Math.asin(Math.sqrt(a));
+  const m = Math.round(d * 1.3 / 10) * 10;          /* прямой знак × 1.3 = реальный маршрут по улицам */
+  const min = Math.max(3, Math.round(m / 75));      /* 4.5 км/ч */
+  return { m, min };
+}
+
 if (document.getElementById('flatMap') && window.ymaps3) {
   ymaps3.ready.then(async () => {
     const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker} = ymaps3;
@@ -247,23 +263,27 @@ if (document.getElementById('flatMap') && window.ymaps3) {
       el.className = 'ym-pin';
       if (multi) {
         const price = `${fmt(Math.min(...group.map(x => x.price)))}–${fmt(Math.max(...group.map(x => x.price)))} ₽`;
+        const w = walkInfo(c);
         el.innerHTML = `
           <div class="pin-price">${price}</div>
           <div class="ym-balloon ym-balloon-multi" hidden>
             <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
             <div class="popup-title">${group[0].loc.split('·')[0].trim()}</div>
             <div class="popup-loc">Две квартиры в одном доме</div>
+            <div class="ym-walk">🚶 до ${WALK_TARGET.name} — ~${w.min} мин пешком (${fmt(w.m)} м)</div>
             ${group.map(x => `
               <div class="ym-flat-row">
                 <b>${x.title}</b><span class="ym-flat-price">${fmt(x.price)} ₽</span>
                 <div class="ym-flat-buttons">
                   <a class="ym-balloon-go" href="flat.html?id=${x.id}">Открыть →</a>
-                  <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Маршрут →</a>
+                  <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Дом →</a>
                 </div>
               </div>`).join('')}
+            <a class="ym-balloon-route ym-walk-route" href="https://yandex.ru/maps/?rtext=${c[0]}%2C${c[1]}~${WALK_TARGET.coords[0]}%2C${WALK_TARGET.coords[1]}&rtt=pedestrian" target="_blank" rel="noopener">🚶 Маршрут пешком до ${WALK_TARGET.name} →</a>
           </div>`;
       } else {
         const f = group[0];
+        const w = walkInfo(c);
         el.innerHTML = `
           <div class="pin-price">${fmt(f.price)} ₽</div>
           <div class="ym-balloon" hidden>
@@ -273,8 +293,10 @@ if (document.getElementById('flatMap') && window.ymaps3) {
             <b style="color:var(--brand)">${fmt(f.price)} ₽ / сутки</b>
             <div class="ym-balloon-actions">
               <a class="ym-balloon-go" href="flat.html?id=${f.id}">Открыть →</a>
-              <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Маршрут →</a>
+              <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Дом →</a>
             </div>
+            <div class="ym-walk">🚶 до ${WALK_TARGET.name} — ~${w.min} мин пешком (${fmt(w.m)} м)</div>
+            <a class="ym-balloon-route ym-walk-route" href="https://yandex.ru/maps/?rtext=${c[0]}%2C${c[1]}~${WALK_TARGET.coords[0]}%2C${WALK_TARGET.coords[1]}&rtt=pedestrian" target="_blank" rel="noopener">🚶 Маршрут пешком до ${WALK_TARGET.name} →</a>
           </div>`;
       }
 
