@@ -612,6 +612,13 @@ a.cp-main:hover .cp-go{transform:translateX(3px);color:var(--brand)}
 .cp-copy:hover{border-color:var(--brand);color:var(--brand)}
 .cp-copy.copied{border-color:var(--brand);color:var(--brand);background:#fdf3ef}
 .cp-note{color:var(--muted);font-size:12.5px;text-align:center;margin:2px 0 0}
+/* Подсказка про прокси для Telegram (РФ-блокировки) */
+.cp-proxy{color:var(--muted);font-size:12.5px;margin:2px 0 2px;padding-left:2px}
+.cp-proxy a{color:var(--brand);text-decoration:none;font-weight:600;white-space:nowrap}
+.cp-proxy a:hover{text-decoration:underline}
+.tg-proxy-hint{color:var(--muted);font-weight:400;font-size:12px}
+.tg-proxy-hint a{color:var(--brand);text-decoration:none;font-weight:600;white-space:nowrap}
+.tg-proxy-hint a:hover{text-decoration:underline}
 @media (max-width:520px){
   .cp-pop{padding:10px}
   .cp-card{padding:20px 16px;border-radius:18px;gap:10px;max-width:calc(100vw - 20px)}

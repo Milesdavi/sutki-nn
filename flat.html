@@ -1,101 +1,102 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Квартира посуточно — Сутки.НН</title>
-<meta name="description" content="Квартира посуточно в Нижнем Новгороде: фото, цены, удобства и бронирование без предоплаты.">
+<title>РљРІР°СЂС‚РёСЂР° РїРѕСЃСѓС‚РѕС‡РЅРѕ вЂ” РЎСѓС‚РєРё.РќРќ</title>
+<meta name="description" content="РљРІР°СЂС‚РёСЂР° РїРѕСЃСѓС‚РѕС‡РЅРѕ РІ РќРёР¶РЅРµРј РќРѕРІРіРѕСЂРѕРґРµ: С„РѕС‚Рѕ, С†РµРЅС‹, СѓРґРѕР±СЃС‚РІР° Рё Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ Р±РµР· РїСЂРµРґРѕРїР»Р°С‚С‹.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
-<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>РЎ</text></svg>">
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body class="flat-page">
 
 <header class="header">
   <div class="container header-inner">
     <a class="logo" href="index.html">
-      <span class="logo-mark">С</span>
-      <span class="logo-text">Сутки<em>.НН</em></span>
+      <span class="logo-mark">РЎ</span>
+      <span class="logo-text">РЎСѓС‚РєРё<em>.РќРќ</em></span>
     </a>
     <div class="header-actions">
       <a class="phone" href="tel:+79056698580">+7 905 669-85-80</a>
       <a class="hs" href="https://t.me/Natali101219" target="_blank" rel="noopener" title="Telegram"><img src="img/ic-tg.svg" alt="Telegram"></a>
       <a class="hs" href="https://wa.me/79056698580" target="_blank" rel="noopener" title="WhatsApp"><img src="img/ic-wa.svg" alt="WhatsApp"></a>
-      <a class="hs" href="https://vk.me/id317914778" target="_blank" rel="noopener" title="ВКонтакте"><img src="img/ic-vk.svg" alt="ВКонтакте"></a>
+      <a class="hs" href="https://vk.me/id317914778" target="_blank" rel="noopener" title="Р’РљРѕРЅС‚Р°РєС‚Рµ"><img src="img/ic-vk.svg" alt="Р’РљРѕРЅС‚Р°РєС‚Рµ"></a>
     </div>
   </div>
 </header>
 
 <main id="flatRoot">
   <div class="container">
-    <nav class="crumbs"><a href="index.html">Главная</a> <span>→</span> <span id="crumbType">Квартира</span></nav>
+    <nav class="crumbs"><a href="index.html">Р“Р»Р°РІРЅР°СЏ</a> <span>в†’</span> <span id="crumbType">РљРІР°СЂС‚РёСЂР°</span></nav>
 
     <div class="flat-layout">
-      <!-- Левая колонка -->
+      <!-- Р›РµРІР°СЏ РєРѕР»РѕРЅРєР° -->
       <div class="flat-main">
-        <h1 class="flat-title" id="fTitle">Квартира</h1>
+        <h1 class="flat-title" id="fTitle">РљРІР°СЂС‚РёСЂР°</h1>
         <p class="flat-loc-line" id="fLocLine"></p>
 
-        <!-- Большая галерея -->
+        <!-- Р‘РѕР»СЊС€Р°СЏ РіР°Р»РµСЂРµСЏ -->
         <div class="gallery slider" id="gallery" data-slider></div>
         <div class="g-thumbs" id="gThumbs"></div>
 
         <section class="flat-block">
-          <h2>Об этой квартире</h2>
+          <h2>РћР± СЌС‚РѕР№ РєРІР°СЂС‚РёСЂРµ</h2>
           <p class="flat-desc" id="fDesc"></p>
         </section>
 
         <section class="flat-block">
-          <h2>Удобства</h2>
+          <h2>РЈРґРѕР±СЃС‚РІР°</h2>
           <div class="flat-feats" id="fFeats"></div>
         </section>
 
         <section class="flat-block">
-          <h2>Условия проживания</h2>
+          <h2>РЈСЃР»РѕРІРёСЏ РїСЂРѕР¶РёРІР°РЅРёСЏ</h2>
           <ul class="flat-rules">
-            <li>🕒 Заезд с 14:00, выезд до 12:00 — ранний заезд и поздний выезд бесплатно, если квартира свободна</li>
-            <li>🔒 Замок с кодовом замком: заселение в любое время без встреч</li>
-            <li>💳 Оплата при заезде: картой, наличными или переводом. Без предоплаты</li>
-            <li>🧾 Чек и закрывающие документы для командировки — в день заезда</li>
-            <li>🚭 Курение запрещено. Животные — по согласованию</li>
-            <li>🧹 Горничная после каждого гостя, свежее бельё и полотенца</li>
+            <li>рџ•’ Р—Р°РµР·Рґ СЃ 14:00, РІС‹РµР·Рґ РґРѕ 12:00 вЂ” СЂР°РЅРЅРёР№ Р·Р°РµР·Рґ Рё РїРѕР·РґРЅРёР№ РІС‹РµР·Рґ Р±РµСЃРїР»Р°С‚РЅРѕ, РµСЃР»Рё РєРІР°СЂС‚РёСЂР° СЃРІРѕР±РѕРґРЅР°</li>
+            <li>рџ”’ Р—Р°РјРѕРє СЃ РєРѕРґРѕРІРѕРј Р·Р°РјРєРѕРј: Р·Р°СЃРµР»РµРЅРёРµ РІ Р»СЋР±РѕРµ РІСЂРµРјСЏ Р±РµР· РІСЃС‚СЂРµС‡</li>
+            <li>рџ’і РћРїР»Р°С‚Р° РїСЂРё Р·Р°РµР·РґРµ: РєР°СЂС‚РѕР№, РЅР°Р»РёС‡РЅС‹РјРё РёР»Рё РїРµСЂРµРІРѕРґРѕРј. Р‘РµР· РїСЂРµРґРѕРїР»Р°С‚С‹</li>
+            <li>рџ§ѕ Р§РµРє Рё Р·Р°РєСЂС‹РІР°СЋС‰РёРµ РґРѕРєСѓРјРµРЅС‚С‹ РґР»СЏ РєРѕРјР°РЅРґРёСЂРѕРІРєРё вЂ” РІ РґРµРЅСЊ Р·Р°РµР·РґР°</li>
+            <li>рџљ­ РљСѓСЂРµРЅРёРµ Р·Р°РїСЂРµС‰РµРЅРѕ. Р–РёРІРѕС‚РЅС‹Рµ вЂ” РїРѕ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЋ</li>
+            <li>рџ§№ Р“РѕСЂРЅРёС‡РЅР°СЏ РїРѕСЃР»Рµ РєР°Р¶РґРѕРіРѕ РіРѕСЃС‚СЏ, СЃРІРµР¶РµРµ Р±РµР»СЊС‘ Рё РїРѕР»РѕС‚РµРЅС†Р°</li>
           </ul>
         </section>
       </div>
 
-      <!-- Правая колонка: бронирование -->
+      <!-- РџСЂР°РІР°СЏ РєРѕР»РѕРЅРєР°: Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ -->
       <aside class="flat-side">
         <div class="book-card">
-          <div class="book-price"><b id="fPrice">—</b><span> / сутки</span></div>
+          <div class="book-price"><b id="fPrice">вЂ”</b><span> / СЃСѓС‚РєРё</span></div>
           <div class="book-rating" id="fRating"></div>
           <form id="bookForm" autocomplete="off">
-            <label class="field"><span>Ночей</span>
+            <label class="field"><span>РќРѕС‡РµР№</span>
               <select id="bNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>14</option><option>30</option></select>
             </label>
             <div class="book-total" id="bTotal"></div>
-            <button type="submit" class="btn btn-primary btn-block">Забронировать</button>
-            <p class="form-note">Без предоплаты · отмена без штрафа за 24 часа</p>
+            <button type="submit" class="btn btn-primary btn-block">Р—Р°Р±СЂРѕРЅРёСЂРѕРІР°С‚СЊ</button>
+            <p class="form-note">Р‘РµР· РїСЂРµРґРѕРїР»Р°С‚С‹ В· РѕС‚РјРµРЅР° Р±РµР· С€С‚СЂР°С„Р° Р·Р° 24 С‡Р°СЃР°</p>
           </form>
           <div class="book-contacts">
-            <a href="tel:+79056698580">📞 +7 905 669-85-80</a>
+            <a href="tel:+79056698580">рџ“ћ +7 905 669-85-80</a>
             <a href="https://t.me/Natali101219" target="_blank" rel="noopener"><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram"> Telegram: @Natali101219</a>
+            <p class="tg-proxy-hint" style="margin:2px 0 4px">Telegram РЅРµ РѕС‚РєСЂС‹РІР°РµС‚СЃСЏ? <a href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">РџРѕРґРєР»СЋС‡РёС‚СЊ СЃРІРµР¶РёР№ РїСЂРѕРєСЃРё в†’</a></p>
             <a href="https://wa.me/79056698580" target="_blank" rel="noopener"><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp"> WhatsApp</a>
           </div>
         </div>
 
         <div class="book-mini">
-          <p>📏 <span id="fArea"></span></p>
-          <p>🛏 <span id="fBeds"></span></p>
-          <p>🚇 <span id="fMetro"></span></p>
+          <p>рџ“Џ <span id="fArea"></span></p>
+          <p>рџ›Џ <span id="fBeds"></span></p>
+          <p>рџљ‡ <span id="fMetro"></span></p>
         </div>
       </aside>
     </div>
 
-    <!-- Похожие квартиры -->
+    <!-- РџРѕС…РѕР¶РёРµ РєРІР°СЂС‚РёСЂС‹ -->
     <section class="flat-similar">
-      <h2>Похожие квартиры</h2>
+      <h2>РџРѕС…РѕР¶РёРµ РєРІР°СЂС‚РёСЂС‹</h2>
       <div class="cards" id="similarCards"></div>
     </section>
   </div>
@@ -103,8 +104,8 @@
 
 <footer class="footer">
   <div class="container footer-inner">
-    <div class="logo"><span class="logo-mark">С</span><span class="logo-text">Сутки<em>.НН</em></span></div>
-    <p>© 2026 «Сутки.НН» — посуточная аренда квартир в Нижнем Новгороде. Демо-сайт, цены и квартиры вымышлены.</p>
+    <div class="logo"><span class="logo-mark">РЎ</span><span class="logo-text">РЎСѓС‚РєРё<em>.РќРќ</em></span></div>
+    <p>В© 2026 В«РЎСѓС‚РєРё.РќРќВ» вЂ” РїРѕСЃСѓС‚РѕС‡РЅР°СЏ Р°СЂРµРЅРґР° РєРІР°СЂС‚РёСЂ РІ РќРёР¶РЅРµРј РќРѕРІРіРѕСЂРѕРґРµ. Р”РµРјРѕ-СЃР°Р№С‚, С†РµРЅС‹ Рё РєРІР°СЂС‚РёСЂС‹ РІС‹РјС‹С€Р»РµРЅС‹.</p>
   </div>
 </footer>
 
@@ -113,7 +114,7 @@
 <script src="photos-list.js"></script>
 <script src="data.js"></script>
 <script src="slider.js"></script>
-<script src="contact.js"></script>
+<script src="contact.js?v=2"></script>
 <script src="flat.js"></script>
 </body>
 </html>

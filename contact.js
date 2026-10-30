@@ -12,6 +12,12 @@ const CP = {
   whatsapp:  'https://wa.me/79056698580',
   tgHandle:  '@Natali101219',
   tgLink:    'https://t.me/Natali101219',
+  /* Telegram заблокирован/замедлен в РФ → свежий MTProto-прокси берём из нашего канала.
+     tg://resolve открывает канал прямо в приложении, не заходя на t.me. */
+  tgProxy: {
+    app: 'tg://resolve?domain=NetGhostMTP',
+    web: 'https://t.me/s/NetGhostMTP'
+  },
   vkHandle:  'id317914778',
   vkLink:    'https://vk.me/id317914778'
 };
@@ -67,6 +73,7 @@ document.body.insertAdjacentHTML('beforeend', `
       </a>
       <button class="cp-copy" type="button" data-cp-copy="${CP.tgHandle}">Скопировать</button>
     </div>
+    <p class="cp-proxy">Telegram не открывается? <a href="${CP.tgProxy.web}" data-cp-proxy target="_blank" rel="noopener">Подключить свежий прокси →</a></p>
 
     <div class="cp-row">
       <a class="cp-main" data-cp-msg="wa" href="${CP.whatsapp}" target="_blank" rel="noopener">
@@ -145,6 +152,13 @@ document.addEventListener('click', e => {
     const m = CP_MESSENGERS[msg.dataset.cpMsg];
     if (cpIsMobile && m.app) cpOpenApp(m.app, m.web);
     else window.open(m.web, '_blank', 'noopener');
+  }
+  /* «Подключить свежий прокси»: сначала пробуем открыть канал в приложении Telegram,
+     если приложения нет — веб-версию канала. */
+  const proxy = e.target.closest('[data-cp-proxy]');
+  if (proxy) {
+    e.preventDefault();
+    cpOpenApp(CP.tgProxy.app, CP.tgProxy.web);
   }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContactPopup(); });
