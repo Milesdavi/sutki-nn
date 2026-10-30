@@ -22,6 +22,33 @@ const CP = {
   vkLink:    'https://vk.me/id317914778'
 };
 
+/* --- Telegram в РФ: в момент клика берём живой MTProto-прокси из GitHub-репо (обновляется ежедневно),
+       открываем tg://proxy — приложение сразу предлагает «Подключить прокси», затем открываем диалог владельца.
+       Каналы-источники обновлены 2026-10-30; при недоступности сработает вшитый запасной прокси. */
+const TG_PROXY_LISTS = [
+  'https://cdn.jsdelivr.net/gh/tgmtproxy/telegram-mtproto-proxy-list@main/proxies.txt',
+  'https://raw.githubusercontent.com/tgmtproxy/telegram-mtproto-proxy-list/main/proxies.txt'
+];
+const TG_PROXY_FALLBACK =
+  'tg://proxy?server=stone.velvetoak.work&port=443&secret=ee2b6eb790d613a1725557ce33b9a87b307777772e676f6f676c652e636f6d';
+
+async function tgProxyLink() {
+  for (const u of TG_PROXY_LISTS) {
+    try {
+      const r = await fetch(u);
+      if (!r.ok) continue;
+      const txt = await r.text();
+      const links = txt.match(/tg:\/\/proxy\?[^ \r\n]+|https:\/\/t\.me\/proxy\?[^ \r\n]+/g);
+      if (links && links.length) {
+        /* предпочитаем секреты вида ee… — замаскированы под HTTPS-TLS, проходят блокировки */
+        const good = links.find(x => /secret=ee[0-9a-f]{16,}/i.test(x)) || links[0];
+        return good.replace(/^https:\/\/t\.me\/proxy\?/, 'tg://proxy?');
+      }
+    } catch (e) { /* пробуем следующий список */ }
+  }
+  return TG_PROXY_FALLBACK;
+}
+
 /* --- Мессенджеры: app — открыть в приложение/диалог, web — открыть на ПК --- */
 const CP_MESSENGERS = {
   tg: { app: 'tg://resolve?domain=Natali101219',        web: CP.tgLink },
@@ -68,7 +95,7 @@ document.body.insertAdjacentHTML('beforeend', `
     <div class="cp-row">
       <a class="cp-main" data-cp-msg="tg" href="${CP.tgLink}" target="_blank" rel="noopener">
         <span class="cp-ico tg"><img src="img/ic-tg.svg" alt="Telegram"></span>
-        <span class="cp-info"><b>Написать в Telegram</b><small>${CP.tgHandle}</small></span>
+        <span class="cp-info"><b>Написать в Telegram</b><small>${CP.tgHandle} · прокси подключится сам</small></span>
         <span class="cp-go">›</span>
       </a>
       <button class="cp-copy" type="button" data-cp-copy="${CP.tgHandle}">Скопировать</button>
@@ -150,6 +177,14 @@ document.addEventListener('click', e => {
   if (msg) {
     e.preventDefault();
     const m = CP_MESSENGERS[msg.dataset.cpMsg];
+    if (msg.dataset.cpMsg === 'tg') {
+      /* Telegram: сначала ставим прокси (приложение предложит «Подключить»), затем открываем диалог */
+      tgProxyLink().then(link => {
+        cpOpenApp(link, CP.tgLink);                 /* нет приложения → сайт t.me */
+        setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 4000);
+      });
+      return;
+    }
     if (cpIsMobile && m.app) cpOpenApp(m.app, m.web);
     else window.open(m.web, '_blank', 'noopener');
   }
