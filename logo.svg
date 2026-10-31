@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- Плашка: фирменный оранжевый со скруглением -->
+  <rect x="0" y="0" width="48" height="48" rx="12" fill="#E4572E"/>
+  <!-- Ночное небо: луна + звёзды (верхний правый угол дома) -->
+  <path d="M33 11a5.4 5.4 0 1 0 4.5 7.6A6.4 6.4 0 0 1 33 11Z" fill="#FFF3E6"/>
+  <circle cx="14.2" cy="12.4" r="1.05" fill="#FFF3E6"/>
+  <circle cx="19.6" cy="9.2" r=".8" fill="#FFF3E6" opacity=".85"/>
+  <circle cx="12.1" cy="17.3" r=".7" fill="#FFF3E6" opacity=".7"/>
+  <!-- Дом: белый силуэт с крышей и окном-«луной» -->
+  <path d="M10 26.4 24 14.6l14 11.8h-3.4V38a1.6 1.6 0 0 1-1.6 1.6H15a1.6 1.6 0 0 1-1.6-1.6V26.4H10Z" fill="#FFF3E6"/>
+  <!-- Тёплое окно -->
+  <rect x="20.4" y="27.4" width="7.2" height="7.2" rx="1.4" fill="#E4572E"/>
+  <circle cx="24" cy="31" r="1.5" fill="#FFE3D6"/>
+  <!-- Фундамент-тень -->
+  <path d="M13.4 40.2h21.2" stroke="#B8401F" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

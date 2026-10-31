@@ -52,8 +52,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 0}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-mark{
-  width:42px;height:42px;border-radius:12px;background:var(--brand);color:#fff;
-  display:grid;place-items:center;font-family:'Unbounded';font-size:20px;font-weight:900;
+  width:42px;height:42px;border-radius:12px;display:block;
 }
 .logo-text{font-size:20px}
 .logo-text em{font-style:normal;color:var(--brand)}
