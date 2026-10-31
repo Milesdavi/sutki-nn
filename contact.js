@@ -169,20 +169,27 @@ function cpOpenApp(scheme, fallback) {
   }, 900);
 }
 
+/* Открыть Telegram: сначала подключаем свежий прокси (приложение предложит «Включить?»),
+   затем сразу открываем диалог с владельцем. Работает и для кнопки в попапе, и для кнопки в шапке. */
+function openTelegramWithProxy() {
+  tgProxyLink().then(link => {
+    cpOpenApp(link, CP.tgLink);                 /* нет приложения → сайт t.me */
+    setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 3000);
+  });
+}
+
 document.addEventListener('click', e => {
   const copy = e.target.closest('[data-cp-copy]');
   if (copy) { cpCopy(copy); return; }
   if (e.target.closest('[data-cp-close]')) { closeContactPopup(); return; }
+  /* Кнопка Telegram в шапке страницы — тоже через прокси */
+  if (e.target.closest('.js-tg-link')) { e.preventDefault(); openTelegramWithProxy(); return; }
   const msg = e.target.closest('[data-cp-msg]');
   if (msg) {
     e.preventDefault();
     const m = CP_MESSENGERS[msg.dataset.cpMsg];
     if (msg.dataset.cpMsg === 'tg') {
-      /* Telegram: сначала ставим прокси (приложение предложит «Подключить»), затем открываем диалог */
-      tgProxyLink().then(link => {
-        cpOpenApp(link, CP.tgLink);                 /* нет приложения → сайт t.me */
-        setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 4000);
-      });
+      openTelegramWithProxy();
       return;
     }
     if (cpIsMobile && m.app) cpOpenApp(m.app, m.web);
