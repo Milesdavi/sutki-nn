@@ -616,6 +616,19 @@ a.cp-main:hover .cp-go{transform:translateX(3px);color:var(--brand)}
 .cp-proxy{color:var(--muted);font-size:12.5px;margin:2px 0 2px;padding-left:2px}
 .cp-proxy a{color:var(--brand);text-decoration:none;font-weight:600;white-space:nowrap}
 .cp-proxy a:hover{text-decoration:underline}
+/* Пошаговая инструкция Telegram: большие кнопки, максимум простоты */
+.cp-guide{border:1px solid var(--line);background:#fffaf6;border-radius:14px;padding:12px 12px 10px;margin:4px 0 12px}
+.cp-guide-title{font-weight:800;font-size:14.5px;margin-bottom:8px}
+.cp-step{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;padding:7px 0;border-top:1px dashed var(--line)}
+.cp-step:first-of-type{border-top:none}
+.cp-step-n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;font-size:12.5px;margin-top:2px}
+.cp-step b{font-size:13.5px;display:block}
+.cp-step small{color:var(--muted);font-size:12px;display:block;margin-top:1px}
+.cp-guide-btn{grid-column:1 / -1;display:block;text-align:center;background:var(--brand);color:#fff !important;font-weight:700;font-size:14.5px;padding:11px 14px;border-radius:10px;text-decoration:none;margin-top:4px}
+.cp-guide-btn:hover{filter:brightness(.95)}
+.cp-grand-btn{background:#2eb82e}
+.cp-miss{color:var(--muted);font-size:12px;margin:8px 0 0}
+.cp-miss a{color:var(--brand);font-weight:600;text-decoration:none}
 .tg-proxy-hint{color:var(--muted);font-weight:400;font-size:12px}
 .tg-proxy-hint a{color:var(--brand);text-decoration:none;font-weight:600;white-space:nowrap}
 .tg-proxy-hint a:hover{text-decoration:underline}

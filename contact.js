@@ -72,6 +72,22 @@ document.body.insertAdjacentHTML('beforeend', `
     <p class="cp-sub">${cpIsMobile ? 'Нажмите — сразу откроется приложение' : 'Номер и юзернейм можно скопировать'}</p>
     <p class="cp-flat" id="cpFlat" hidden></p>
 
+    <!-- Пошаговая инструкция Telegram: просто, буквальными кнопками -->
+    <div class="cp-guide" id="cpTgGuide" hidden>
+      <div class="cp-guide-title">Telegram — инструкция в 2 нажатия</div>
+      <div class="cp-step">
+        <span class="cp-step-n">1</span>
+        <div><b>Подключите прокси</b><small>Telegram откроется сам и предложит «Включить» — жмите «Включить»</small></div>
+        <a class="cp-guide-btn" data-tg-proxy href="#">1. Подключить прокси</a>
+      </div>
+      <div class="cp-step">
+        <span class="cp-step-n">2</span>
+        <div><b>Вернитесь на сайт и откройте чат</b><small>кнопка ниже откроет переписку с нами</small></div>
+        <a class="cp-guide-btn cp-grand-btn" href="${CP_MESSENGERS.tg.app}">2. Открыть чат с нами →</a>
+      </div>
+      <p class="cp-miss" id="cpTgMiss" hidden>Telegram не открылся? Проверьте, что приложение установлено. Или <a href="tel:${CP.phoneRaw}">позвоните</a> — ответим сразу 🙂</p>
+    </div>
+
     <div class="cp-row">
       <span class="cp-main">
         <span class="cp-ico call">📞</span>
@@ -100,8 +116,6 @@ document.body.insertAdjacentHTML('beforeend', `
       </a>
       <button class="cp-copy" type="button" data-cp-copy="${CP.tgHandle}">Скопировать</button>
     </div>
-    <p class="cp-proxy" id="cpTgChat" hidden><b>Прокси подключили?</b> <a href="${CP_MESSENGERS.tg.app}" style="white-space:nowrap">Открыть чат с @Natali101219 →</a></p>
-    <p class="cp-proxy" id="cpTgMiss" hidden>Telegram не открылся? Проверьте, что приложение установлено — а пока можно <a href="tel:${CP.phoneRaw}">позвонить</a> или <a href="#" data-cp-msg="wa">написать в WhatsApp</a> 🙂</p>
     <p class="cp-proxy">Telegram замедлен/заблокирован? <a href="${CP.tgProxy.web}" data-cp-proxy target="_blank" rel="noopener">Подключить свежий прокси →</a></p>
 
     <div class="cp-row">
@@ -130,6 +144,8 @@ function openContactPopup(flatTitle) {
 function closeContactPopup() {
   cpPop.hidden = true;
   document.body.style.overflow = '';
+  const guide = document.getElementById('cpTgGuide');
+  if (guide) guide.hidden = true;
 }
 window.openContactPopup = openContactPopup;
 
@@ -171,36 +187,50 @@ function cpOpenApp(scheme, fallback) {
   }, 900);
 }
 
-/* Открыть Telegram: сначала подключаем свежий прокси (приложение предложит «Включить?»),
-   затем открываем диалог с владельцем. Работает для кнопки в попапе и в шапке.
-   Надёжный финал: окно связи остаётся открытым с кнопкой «Открыть чат →» —
-   после включения прокси гость тапает её и попадает в диалог с @Natali101219.
-   (Telegram сам не хранит «куда идти после включения прокси», авто-переход капризный.) */
-function openTelegramWithProxy() {
-  openContactPopup();                           /* подсказка и кнопка чата — на экране, когда гость вернётся */
-  tgProxyLink().then(link => {
-    location.href = link;                       /* ① приложение спросит «Включить прокси?» */
-    const chat = document.getElementById('cpTgChat');
-    if (chat) chat.hidden = false;              /* ② кнопка «Открыть чат →» */
-    /* ③ авто-попытка открыть диалог — иногда успевает сработать сама */
-    setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 3500);
-  });
+/* Telegram — остаёмся на сайте и показываем простую пошаговую инструкцию.
+   Все переходы (прокси, чат) гость делает большими кнопками в самой инструкции,
+   но перед нами открывается уже с запрошенным заранее свежим списком прокси. */
+function openTelegramGuide() {
+  openContactPopup();
+  const guide = document.getElementById('cpTgGuide');
+  if (guide) guide.hidden = false;
+  /* прокси готовим заранее, чтобы нажатие «1. Подключить прокси» срабатывало мгновенно */
+  tgProxyLink();
 }
 
 document.addEventListener('click', e => {
   const copy = e.target.closest('[data-cp-copy]');
   if (copy) { cpCopy(copy); return; }
   if (e.target.closest('[data-cp-close]')) { closeContactPopup(); return; }
-  /* Кнопка Telegram в шапке страницы — тоже через прокси */
-  if (e.target.closest('.js-tg-link')) { e.preventDefault(); openTelegramWithProxy(); return; }
+  /* Кнопки Telegram — в шапке и в попапе: открываем инструкцию, не уводя со страницы */
+  if (e.target.closest('.js-tg-link') || e.target.closest('[data-cp-msg="tg"]')) {
+    e.preventDefault();
+    openTelegramGuide();
+    return;
+  }
+  /* Шаг 1 инструкции: подключить прокси (остаёмся на сайте) */
+  const gp = e.target.closest('[data-tg-proxy]');
+  if (gp) {
+    e.preventDefault();
+    tgProxyLink().then(link => {
+      const t = Date.now();
+      location.href = link;
+      /* если приложение не открылось (ПК без Telegram) — тихо подскажем в шаге 1 */
+      let opened = false;
+      const onBlur = () => { opened = true; window.removeEventListener('blur', onBlur); };
+      window.addEventListener('blur', onBlur);
+      setTimeout(() => {
+        window.removeEventListener('blur', onBlur);
+        const miss = document.getElementById('cpTgMiss');
+        if (miss && !opened && !document.hidden) miss.hidden = false;
+      }, 2000);
+    });
+    return;
+  }
   const msg = e.target.closest('[data-cp-msg]');
   if (msg) {
     e.preventDefault();
     const m = CP_MESSENGERS[msg.dataset.cpMsg];
-    if (msg.dataset.cpMsg === 'tg') {
-      openTelegramWithProxy();
-      return;
-    }
     if (cpIsMobile && m.app) cpOpenApp(m.app, m.web);
     else window.open(m.web, '_blank', 'noopener');
   }
