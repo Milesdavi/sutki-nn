@@ -100,6 +100,7 @@ document.body.insertAdjacentHTML('beforeend', `
       </a>
       <button class="cp-copy" type="button" data-cp-copy="${CP.tgHandle}">Скопировать</button>
     </div>
+    <p class="cp-proxy" id="cpTgChat" hidden><b>Прокси подключили?</b> <a href="${CP_MESSENGERS.tg.app}" style="white-space:nowrap">Открыть чат с @Natali101219 →</a></p>
     <p class="cp-proxy" id="cpTgMiss" hidden>Telegram не открылся? Проверьте, что приложение установлено — а пока можно <a href="tel:${CP.phoneRaw}">позвонить</a> или <a href="#" data-cp-msg="wa">написать в WhatsApp</a> 🙂</p>
     <p class="cp-proxy">Telegram замедлен/заблокирован? <a href="${CP.tgProxy.web}" data-cp-proxy target="_blank" rel="noopener">Подключить свежий прокси →</a></p>
 
@@ -171,20 +172,18 @@ function cpOpenApp(scheme, fallback) {
 }
 
 /* Открыть Telegram: сначала подключаем свежий прокси (приложение предложит «Включить?»),
-   затем сразу открываем диалог с владельцем. Работает и для кнопки в попапе, и для кнопки в шапке.
-   ВАЖНО: запасной ссылкой НЕ делаем t.me — он заблокирован в РФ; если приложения нет,
-   оставляем посетителя на странице и показываем альтернативы. */
+   затем открываем диалог с владельцем. Работает для кнопки в попапе и в шапке.
+   Надёжный финал: окно связи остаётся открытым с кнопкой «Открыть чат →» —
+   после включения прокси гость тапает её и попадает в диалог с @Natali101219.
+   (Telegram сам не хранит «куда идти после включения прокси», авто-переход капризный.) */
 function openTelegramWithProxy() {
+  openContactPopup();                           /* подсказка и кнопка чата — на экране, когда гость вернётся */
   tgProxyLink().then(link => {
-    location.href = link;                       /* ① прокси — приложение спросит «Включить?» */
-    /* ② затем открываем сам диалог @Natali101219 */
-    setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 3000);
-    /* ③ если Telegram так и не открылся (не установлен) — не уводим на заблокированный t.me,
-          а подсказываем альтернативы прямо в окне */
-    setTimeout(() => {
-      const note = document.getElementById('cpTgMiss');
-      if (note && !document.hidden) note.hidden = false;
-    }, 1600);
+    location.href = link;                       /* ① приложение спросит «Включить прокси?» */
+    const chat = document.getElementById('cpTgChat');
+    if (chat) chat.hidden = false;              /* ② кнопка «Открыть чат →» */
+    /* ③ авто-попытка открыть диалог — иногда успевает сработать сама */
+    setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 3500);
   });
 }
 
