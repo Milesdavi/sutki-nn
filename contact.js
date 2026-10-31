@@ -100,7 +100,8 @@ document.body.insertAdjacentHTML('beforeend', `
       </a>
       <button class="cp-copy" type="button" data-cp-copy="${CP.tgHandle}">Скопировать</button>
     </div>
-    <p class="cp-proxy">Telegram не открывается? <a href="${CP.tgProxy.web}" data-cp-proxy target="_blank" rel="noopener">Подключить свежий прокси →</a></p>
+    <p class="cp-proxy" id="cpTgMiss" hidden>Telegram не открылся? Проверьте, что приложение установлено — а пока можно <a href="tel:${CP.phoneRaw}">позвонить</a> или <a href="#" data-cp-msg="wa">написать в WhatsApp</a> 🙂</p>
+    <p class="cp-proxy">Telegram замедлен/заблокирован? <a href="${CP.tgProxy.web}" data-cp-proxy target="_blank" rel="noopener">Подключить свежий прокси →</a></p>
 
     <div class="cp-row">
       <a class="cp-main" data-cp-msg="wa" href="${CP.whatsapp}" target="_blank" rel="noopener">
@@ -170,11 +171,20 @@ function cpOpenApp(scheme, fallback) {
 }
 
 /* Открыть Telegram: сначала подключаем свежий прокси (приложение предложит «Включить?»),
-   затем сразу открываем диалог с владельцем. Работает и для кнопки в попапе, и для кнопки в шапке. */
+   затем сразу открываем диалог с владельцем. Работает и для кнопки в попапе, и для кнопки в шапке.
+   ВАЖНО: запасной ссылкой НЕ делаем t.me — он заблокирован в РФ; если приложения нет,
+   оставляем посетителя на странице и показываем альтернативы. */
 function openTelegramWithProxy() {
   tgProxyLink().then(link => {
-    cpOpenApp(link, CP.tgLink);                 /* нет приложения → сайт t.me */
+    location.href = link;                       /* ① прокси — приложение спросит «Включить?» */
+    /* ② затем открываем сам диалог @Natali101219 */
     setTimeout(() => { location.href = CP_MESSENGERS.tg.app; }, 3000);
+    /* ③ если Telegram так и не открылся (не установлен) — не уводим на заблокированный t.me,
+          а подсказываем альтернативы прямо в окне */
+    setTimeout(() => {
+      const note = document.getElementById('cpTgMiss');
+      if (note && !document.hidden) note.hidden = false;
+    }, 1600);
   });
 }
 
