@@ -283,7 +283,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .map-embed{margin-top:22px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
 .map-embed iframe{width:100%;height:300px;border:0}
 .map-wrap{margin-top:18px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);position:relative;z-index:1}
-#flatMap{height:420px;width:100%;background:var(--bg-alt)}
+#flatMap{height:480px;width:100%;background:var(--bg-alt)}
 .map-note{font-size:13.5px;color:var(--muted);margin-top:12px}
 .pin-price{
   background:var(--brand-solid);color:#fff;font-weight:800;font-size:13px;
@@ -320,18 +320,15 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   display:flex;align-items:center;justify-content:center;line-height:1;
 }
 .ym-balloon-close:hover{color:var(--dark);background:var(--line)}
-.ym-balloon-go{
-  background:var(--brand-solid);color:#fff;border-radius:999px;padding:9px 16px;
-  font-weight:700;text-decoration:none;white-space:nowrap;
-}
-.ym-balloon-go:hover{filter:brightness(1.06)}
-.ym-price{display:block;color:var(--brand-ink);font-weight:800;font-size:15px;margin-bottom:2px}
+/* Цена и переход в карточку — одной строкой, чтобы окно не вытягивалось в высоту */
+.ym-price-row{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:2px}
+.ym-price{display:block;color:var(--brand-ink);font-weight:800;font-size:15px}
 .ym-price span{font-weight:600;font-size:12.5px;color:var(--muted)}
-/* Основная кнопка на всю ширину окна */
-.ym-go-wide{
-  display:flex;align-items:center;justify-content:center;
-  margin-top:10px;padding:8px 12px;font-size:13.5px;min-height:38px;
+.ym-open{
+  flex:none;font-size:12.5px;font-weight:700;color:var(--brand-ink);text-decoration:none;
+  white-space:nowrap;line-height:1.2;padding:6px 0;border-bottom:2px solid transparent;
 }
+.ym-open:hover{border-bottom-color:var(--brand)}
 /* Маршруты: пешком до офиса и от текущего положения */
 .ym-routes{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .ym-route{
@@ -623,7 +620,6 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .contacts-card{padding:16px 18px}
   .contacts-card h3{font-size:15.5px}
   .contacts-card p{font-size:13.5px}
-  #flatMap{height:clamp(340px,48vh,420px)}
   .modal{padding:10px}
   .modal-card{max-height:96vh;max-height:96dvh;border-radius:18px}
   .modal-body{padding:16px}
@@ -796,9 +792,9 @@ a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible{
 .g-thumbs{scroll-snap-type:x proximity;overscroll-behavior-x:contain;scroll-padding-left:2px}
 .g-thumbs img{scroll-snap-align:start}
 
-/* Карта на телефоне: не фиксированные 320 px, а по высоте экрана (340–420 px) */
+/* Карта на телефоне: по высоте экрана, чтобы окно метки не приходилось прокручивать */
 @media (max-width:720px){
-  #flatMap:not(.map-fallback){height:clamp(340px,48vh,420px)}
+  #flatMap:not(.map-fallback){height:clamp(380px,60vh,470px)}
 }
 
 /* Очень узкие экраны 320–380 px: шапка и формы помещаются без давки на иконки */

@@ -414,12 +414,14 @@ function buildFlatMap(container) {
             <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
             <div class="popup-title">${f.title}</div>
             <div class="popup-loc">📍 ${f.loc}</div>
-            <b class="ym-price">${fmt(f.price)} ₽ <span>/ сутки</span></b>
+            <div class="ym-price-row">
+              <b class="ym-price">${fmt(f.price)} ₽ <span>/ сутки</span></b>
+              <a class="ym-open" href="flat.html?id=${f.id}">Открыть →</a>
+            </div>
             <div class="ym-routes">
               <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До офиса · ${w.min} мин</a>
               <a class="ym-route" href="${routeUrl(c)}" target="_blank" rel="noopener">📍 От вашего положения</a>
             </div>
-            <a class="ym-balloon-go ym-go-wide" href="flat.html?id=${f.id}">Открыть квартиру →</a>
           </div>`;
       }
 
