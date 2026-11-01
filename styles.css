@@ -43,7 +43,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 /* ---------- Buttons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  border:none;border-radius:999px;font-weight:700;
+  border:none;border-radius:999px;font-weight:700;line-height:1.2;
   padding:14px 28px;font-size:16px;transition:.22s;
 }
 .btn-primary{background:var(--brand-solid);color:#fff;box-shadow:0 8px 20px rgba(199,67,31,.28)}
@@ -53,6 +53,9 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .btn-sm{padding:10px 20px;font-size:14px}
 .btn-lg{padding:16px 34px;font-size:17px}
 .btn-block{width:100%}
+/* Нажатие: кнопка «садится» на место, а не скачет вместе с hover */
+.btn:active{transform:translateY(0) scale(.985)}
+.btn:focus-visible{outline-offset:3px}
 
 /* ---------- Header ---------- */
 .header{
@@ -66,13 +69,13 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 }
 .logo-text{font-size:20px}
 .logo-text em{font-style:normal;color:var(--brand)}
-.nav{display:flex;gap:26px}
+.nav{display:flex;gap:24px}
 .nav a{font-weight:600;font-size:15px;color:var(--muted);transition:.2s}
 .nav a:hover{color:var(--ink)}
-.header-actions{display:flex;align-items:center;gap:14px}
+.header-actions{display:flex;align-items:center;gap:12px}
 .phone{font-weight:800;font-size:15px;white-space:nowrap}
 .header .hs{
-  display:grid;place-items:center;width:38px;height:38px;border-radius:12px;
+  display:grid;place-items:center;width:40px;height:40px;border-radius:12px;
   background:var(--bg-alt);border:1px solid var(--line);text-decoration:none;
   transition:.2s;
 }
@@ -136,8 +139,8 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .section{padding:80px 0}
 .section-alt{background:var(--bg-alt)}
 .section-dark{background:var(--dark);color:#F5EFE4}
-.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:36px}
-.section-title{font-size:clamp(26px,3vw,38px);margin-bottom:12px}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:32px}
+.section-title{font-size:clamp(26px,3vw,38px);margin-bottom:12px;letter-spacing:-.01em}
 .section-title.light{color:#fff}
 .section-title.center{text-align:center}
 .section-sub{color:var(--muted);max-width:640px;font-size:17px}
@@ -147,20 +150,21 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .section-dark .tg-proxy-hint a{color:var(--brand-on-dark)}
 
 /* ---------- Filters & cards ---------- */
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
 .chip{
+  display:inline-flex;align-items:center;justify-content:center;min-height:40px;
   border:1.5px solid var(--line);background:#fff;border-radius:999px;
   padding:10px 20px;font-weight:700;font-size:14px;color:var(--muted);transition:.2s;
 }
 .chip:hover{border-color:var(--brand);color:var(--brand-ink)}
 .chip.active{background:var(--brand-solid);border-color:var(--brand-solid);color:#fff}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{
   background:var(--card);border-radius:var(--radius);overflow:hidden;
   border:1px solid var(--line);box-shadow:var(--shadow);transition:.25s;
   display:flex;flex-direction:column;
 }
-.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--line-strong)}
 .card-media{position:relative;overflow:hidden}
 .card-media img{width:100%;aspect-ratio:3/2;height:auto;object-fit:cover}
 
@@ -262,8 +266,8 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .review p{color:var(--ink);font-size:15px}
 
 /* ---------- FAQ ---------- */
-.faq{display:flex;flex-direction:column;gap:12px;margin-top:36px}
-.faq-item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 22px;box-shadow:var(--shadow)}
+.faq{display:flex;flex-direction:column;gap:12px;margin-top:32px}
+.faq-item{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:4px 22px;box-shadow:var(--shadow)}
 .faq-item summary{
   list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
   gap:16px;padding:16px 0;font-weight:800;font-size:16px;
