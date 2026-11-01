@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;700;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=18">
+<link rel="stylesheet" href="styles.css?v=19">
 <script>document.documentElement.className+=" js";</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
 </head>
@@ -25,6 +25,10 @@
       <a href="#reviews">Отзывы</a>
       <a href="#faq">Вопросы</a>
       <a href="#contacts">Контакты</a>
+      <div class="nav-mobile">
+        <a class="nav-phone" href="tel:+79056698580">📞 +7 905 669-85-80</a>
+        <button type="button" class="btn btn-primary btn-block" data-scroll="#booking">Забронировать</button>
+      </div>
     </nav>
     <div class="header-actions">
       <a class="phone" href="tel:+79056698580">+7 905 669-85-80</a>
@@ -61,7 +65,7 @@
         </ul>
       </div>
       <form class="search-card" id="searchForm" autocomplete="off">
-        <h3 class="search-title">Найти квартиру</h3>
+        <h2 class="search-title">Найти квартиру</h2>
         <label class="field">
           <span>Гостей</span>
           <select id="guests">
@@ -268,42 +272,42 @@
 
   <!-- CONTACTS -->
   <section class="section" id="contacts">
-    <div class="container contacts-grid">
-      <div class="contacts-info">
-        <h2 class="section-title">Квартиры на карте</h2>
-        <p class="contacts-line">Все 6 квартир — в пешей доступности друг от друга и от исторического центра. Две из них в одном доме на площади Горького. Красные точки — квартиры с ценой, тёмная метка — Решетниковская, 4: гости часто спрашивают, как туда дойти. Нажмите на точку: откроется цена, бронь и маршрут пешком — до Решетниковской, 4 или от вашего текущего положения.</p>
-        <div class="map-wrap"><div id="flatMap"></div></div>
-        <h2 class="section-title" style="margin-top:34px">Контакты</h2>
-        <p class="contacts-line">📞 <a href="tel:+79056698580">+7 905 669-85-80</a></p>
-        <div class="tg-panel">
-          <p class="tg-panel-top">
-            <img class="mes-ico" src="img/ic-tg.svg" alt="" width="18" height="18">
-            <span>Telegram</span>
-            <a class="tg-panel-handle js-tg-link" href="https://t.me/Natali101219" target="_blank" rel="noopener">@Natali101219</a>
-          </p>
-          <p class="tg-panel-why">Не открывается чат — почти всегда дело в блокировке. Прокси её обходит, ставится за пару секунд.</p>
-          <ol class="tg-steps">
-            <li>Сначала подключите прокси кнопкой ниже — один тап, без настроек.</li>
-            <li>Потом вернитесь сюда и нажмите на @Natali101219 — переписка откроется.</li>
-          </ol>
-          <a class="tg-proxy-btn" href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">Подключить прокси →</a>
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Квартиры на карте</h2>
+          <p class="section-sub">Все 6 квартир — в пешей доступности друг от друга и от исторического центра. Две из них — в одном доме на площади Горького.</p>
         </div>
-        <p class="contacts-line"><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp" width="17" height="17"> WhatsApp: <a href="https://wa.me/79056698580">+7 905 669-85-80</a></p>
-        <p class="contacts-line">📍 Нижний Новгород, Большая Покровская, 75</p>
-        <p class="contacts-line">🕒 Поддержка гостей — круглосуточно</p>
       </div>
-      <div class="contacts-side">
-        <div class="contacts-card">
-          <h3>Площадь Горького, 1 — две квартиры</h3>
-          <p>3-комнатная на 4 этаже и 2-комнатная на 5 этаже в одном подъезде. Большая Покровская и Кремль в двух шагах.</p>
+
+      <div class="map-wrap">
+        <div id="flatMap" role="region" aria-label="Карта квартир в Нижнем Новгороде"></div>
+      </div>
+      <p class="map-note">Красные метки — квартиры, тёмная — Решетниковская, 4: частая точка, куда гости идут пешком. Нажмите на метку — откроются цена, бронь и маршрут.</p>
+
+      <div class="contacts-grid">
+        <div class="contacts-info">
+          <h2 class="section-title contacts-title">Контакты</h2>
+          <p class="contacts-line">📞 <a href="tel:+79056698580">+7 905 669-85-80</a> — круглосуточно</p>
+          <p class="contacts-line"><img class="mes-ico" src="img/ic-tg.svg" alt="" width="17" height="17"> Telegram: <a class="js-tg-link" href="https://t.me/Natali101219" target="_blank" rel="noopener">@Natali101219</a></p>
+          <p class="contacts-hint">Не открывается? <a href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">Подключите прокси</a> — один тап, без настроек.</p>
+          <p class="contacts-line"><img class="mes-ico" src="img/ic-wa.svg" alt="" width="17" height="17"> WhatsApp: <a href="https://wa.me/79056698580">+7 905 669-85-80</a></p>
+          <p class="contacts-line">📍 Нижний Новгород, Большая Покровская, 75</p>
+          <p class="contacts-line">🕒 Поддержка гостей — круглосуточно</p>
         </div>
-        <div class="contacts-card">
-          <h3>Площадь Свободы и улица Горького</h3>
-          <p>Тихий исторический центр: 10 минут пешком до Кремля и Чкаловской лестницы.</p>
-        </div>
-        <div class="contacts-card">
-          <h3>Улицы Горького и Белинского</h3>
-          <p>Дома 153 и 47 — рядом Верхневолжская набережная с видом на Стрелку.</p>
+        <div class="contacts-side">
+          <div class="contacts-card">
+            <h3>Площадь Горького, 1 — две квартиры</h3>
+            <p>3-комнатная на 4 этаже и 2-комнатная на 5 этаже в одном подъезде. Большая Покровская и Кремль в двух шагах.</p>
+          </div>
+          <div class="contacts-card">
+            <h3>Площадь Свободы и улица Горького</h3>
+            <p>Тихий исторический центр: 10 минут пешком до Кремля и Чкаловской лестницы.</p>
+          </div>
+          <div class="contacts-card">
+            <h3>Улицы Горького и Белинского</h3>
+            <p>Дома 153 и 47 — рядом Верхневолжская набережная с видом на Стрелку.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -348,10 +352,11 @@
 
 <!-- Плавающая кнопка к карте: всегда под рукой при скролле -->
 <button type="button" class="map-fab" id="mapFab" aria-label="Показать карту квартир" title="Карта квартир">
-  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9 3 3 5.5v15L9 18l6 3 6-2.5v-15L15 6 9 3Z"></path>
-    <path d="M9 3v15"></path>
-    <path d="M15 6v15"></path>
+  <svg viewBox="0 0 24 24" width="23" height="23" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 3.6 3.4 5.8v14.4L9 18l6 2.4 5.6-2.2V3.8L15 6 9 3.6Z"></path>
+    <path d="M9 3.6V18"></path>
+    <path d="M15 6v14.4"></path>
+    <circle cx="12" cy="12" r="1.9" fill="currentColor" stroke="none"></circle>
   </svg>
 </button>
 
@@ -360,8 +365,8 @@
 <script src="https://api-maps.yandex.ru/v3/?apikey=f1e00c1d-72c6-45f5-abe2-8d5a169cfa6f&amp;lang=ru_RU"></script>
 <script src="photos-list.js?v=1"></script>
 <script src="data.js?v=1"></script>
-<script src="slider.js?v=2"></script>
+<script src="slider.js?v=3"></script>
 <script src="contact.js?v=8"></script>
-<script src="app.js?v=22"></script>
+<script src="app.js?v=23"></script>
 </body>
 </html>
