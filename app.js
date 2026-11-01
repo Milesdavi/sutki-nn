@@ -236,15 +236,26 @@ function animateCount(el) {
 
 /* ---------- Reveal on scroll ---------- */
 let io;
+function revealAll() {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+}
 function observeReveals() {
-  if (!io) {
-    io = new IntersectionObserver(entries => {
-      entries.forEach(en => {
-        if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
-      });
-    }, { threshold: 0.12 });
+  // Если браузер не умеет IntersectionObserver (или пользователь просил меньше
+  // движения) — просто показываем всё сразу, ничего не остаётся скрытым.
+  const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!('IntersectionObserver' in window) || calm) { revealAll(); return; }
+  try {
+    if (!io) {
+      io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12 });
+    }
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => io.observe(el));
+  } catch (e) {
+    revealAll(); // страховка: наблюдатель не завёлся — показываем всё
   }
-  document.querySelectorAll('.reveal:not(.visible)').forEach(el => io.observe(el));
 }
 
 /* ---------- Init ---------- */
@@ -534,9 +545,21 @@ function initFlatMap() {
 }
 initFlatMap();
 
-const statObs = new IntersectionObserver(entries => {
-  entries.forEach(en => {
-    if (en.isIntersecting) { animateCount(en.target); statObs.unobserve(en.target); }
-  });
-}, { threshold: 0.4 });
-document.querySelectorAll('.stat [data-count]').forEach(el => statObs.observe(el));
+/* Вывести итоговое число без анимации — запасной путь для старых браузеров
+   и для настройки «меньше движения»: цифры не должны оставаться нулями. */
+function setCount(el) {
+  const target = parseFloat(el.dataset.count);
+  const dec = el.dataset.decimal ? 1 : 0;
+  el.textContent = target.toFixed(dec) + (el.dataset.suffix || '');
+}
+const calmMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+const statObs = ('IntersectionObserver' in window && !calmMotion)
+  ? new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { animateCount(en.target); statObs.unobserve(en.target); }
+      });
+    }, { threshold: 0.4 })
+  : null;
+document.querySelectorAll('.stat [data-count]').forEach(el => {
+  if (statObs) statObs.observe(el); else setCount(el);
+});

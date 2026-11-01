@@ -14,9 +14,12 @@
   --brand-dark:#C7431F;
   --teal:#2E86AB;
   --teal-ink:#1C6A8C;
-  --star:#A8740F;
+  --star:#8A5E0A;
   --green:#1E7A3C;
   --dark:#231A12;
+  /* Текст и ссылки на тёмном фоне (#231A12): контраст 6.2 и 6.1 */
+  --muted-dark:#A99A88;
+  --brand-on-dark:#F2764A;
   --radius:18px;
   --shadow:0 10px 30px rgba(43,33,24,.08);
   --shadow-lg:0 24px 60px rgba(43,33,24,.16);
@@ -139,6 +142,9 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .section-title.center{text-align:center}
 .section-sub{color:var(--muted);max-width:640px;font-size:17px}
 .section-sub.light{color:#CBBBA4}
+/* Внутри тёмного блока подписи и ссылки читаются: свои цвета вместо --muted/--brand-ink */
+.section-dark .tg-proxy-hint{color:var(--muted-dark)}
+.section-dark .tg-proxy-hint a{color:var(--brand-on-dark)}
 
 /* ---------- Filters & cards ---------- */
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
@@ -191,7 +197,9 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .s-dot.active::before{background:#fff;width:20px}
 .s-count{
   position:absolute;top:12px;right:12px;z-index:2;
-  background:rgba(35,26,18,.65);color:#fff;
+  /* Непрозрачный фон: счётчик читается на любом фото, а не зависит от того,
+     что под ним (было rgba(35,26,18,.65) — контраст плавал от 3 до 6). */
+  background:var(--dark);color:#fff;
   font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;
 }
 @media (hover:hover) and (pointer:fine){
@@ -261,9 +269,11 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   gap:16px;padding:16px 0;font-weight:800;font-size:16px;
 }
 .faq-item summary::-webkit-details-marker{display:none}
-.faq-arrow{color:var(--brand);transition:.25s}
+.faq-arrow{color:var(--brand-ink);transition:.25s}
 .faq-item[open] .faq-arrow{transform:rotate(180deg)}
-.faq-item p{color:var(--muted);padding-bottom:16px;font-size:15px}
+/* Длина строки: 566px при 15px — это ~75 знаков, комфортный предел для чтения.
+   (Единица ch тут шире среднего знака, поэтому задаём в пикселях.) */
+.faq-item p{color:var(--muted);padding-bottom:16px;font-size:15px;max-width:566px}
 
 /* ---------- Booking ---------- */
 .booking-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
@@ -425,7 +435,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .flat-loc-line{color:var(--muted);font-weight:600;font-size:15px;margin-bottom:18px}
 .flat-block{margin-top:30px}
 .flat-block h2{font-size:19px;margin-bottom:12px}
-.flat-desc{color:var(--muted);font-size:16px;max-width:720px}
+.flat-desc{color:var(--muted);font-size:16px;max-width:620px}
 .flat-feats{display:flex;flex-wrap:wrap;gap:8px}
 .flat-feats .feat{padding:8px 14px;font-size:14px;border-radius:10px}
 .flat-rules{list-style:none;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:15px}
@@ -501,9 +511,13 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   width:max-content;max-width:min(560px,calc(100vw - 32px));
 }
 
-/* ---------- Reveal animation ---------- */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s}
-.reveal.visible{opacity:1;transform:none}
+/* ---------- Reveal animation ----------
+   Прячем блоки только если JS реально работает (html.js ставится в <head>):
+   при отключённом/упавшем скрипте контент остаётся видимым. */
+.reveal{transition:opacity .6s,transform .6s}
+.js .reveal{opacity:0;transform:translateY(26px)}
+.js .reveal.visible{opacity:1;transform:none}
+@media (scripting:none){ .reveal{opacity:1;transform:none} }
 
 /* ---------- Responsive ---------- */
 @media (max-width:1024px){
@@ -821,4 +835,37 @@ a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible{
   .cp-guide-btn{font-size:13.5px;padding:10px 12px}
   .toast{padding:12px 16px;font-size:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
 }
+
+/* ---------- Типографская отделка ----------
+   Перенос строк в заголовках, висячие предлоги в тексте и ровные цифры в ценах. */
+
+/* Заголовки ломаем на смысловые строки, а не по последнему слову */
+h1,h2,h3,.hero-title,.section-title,.card-title,.search-title,.booking-title,.contacts-title{
+  text-wrap:balance;
+}
+/* В абзацах — без «сирот»: не оставляем одно слово на последней строке */
+p,li,.faq-a,.review-body,.flat-desc,.card-loc,.hero-sub,.section-sub,.contacts-line{
+  text-wrap:pretty;
+}
+
+/* Цены, счётчики фото, характеристики: цифры одной ширины, столбцы не «пляшут» */
+.price b,.price span,.card-price,.stat b,.s-count,.ym-price,.ym-flat-price,.ym-office-hint,
+.fact b,.facts b,.flat-price,.cp-price,.g-count,.slider-count{
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum" 1;
+}
+
+/* ---------- Уважение к настройке «меньше движения» ----------
+   Включается на уровне системы (Windows: Параметры → Спец. возможности → Визуальные эффекты). */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  /* Контент не должен оставаться спрятанным из-за отключённой анимации */
+  .js .reveal{opacity:1 !important;transform:none !important}
+}
+
 
