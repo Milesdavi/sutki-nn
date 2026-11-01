@@ -1086,4 +1086,21 @@ p,li,.faq-a,.review-body,.flat-desc,.card-loc,.hero-sub,.section-sub,.contacts-l
   }
 }
 
+/* ---------- Шапка: телефон и кнопка только в мобильном меню ----------
+   Внутри <nav> лежит блок .nav-mobile — дубль телефона и кнопки
+   «Забронировать» для выезжающего меню. На компьютере он не нужен: без
+   этого правила он встаёт в строку с пунктами меню, и в шапке появляются
+   второй номер и вторая кнопка «Забронировать», а подписи пунктов съезжают. */
+
+.nav-mobile{display:none}
+
+@media (max-width:900px){
+  .nav-mobile{display:flex;flex-direction:column;gap:10px;padding-top:14px}
+  .nav .nav-phone{
+    padding:2px 0;border-bottom:none;
+    color:var(--ink);font-weight:800;font-size:16px;letter-spacing:-.01em;
+  }
+  .nav-mobile .btn{width:100%;padding:13px 20px;font-size:15.5px}
+}
+
 
