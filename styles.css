@@ -968,6 +968,84 @@ p,li,.faq-a,.review-body,.flat-desc,.card-loc,.hero-sub,.section-sub,.contacts-l
   font-feature-settings:"tnum" 1;
 }
 
+/* ---------- Бронирование: один центрированный блок ----------
+   Раньше было две колонки: слева текст с контактами, справа белая форма.
+   Поля формы убрали, и колонки стало нечем уравновесить — поэтому блок
+   собран в одну ось по центру, а порядок идёт по шагам гостя:
+   заголовок → кнопка «Забронировать» → «или свяжитесь напрямую» → контакты → Telegram. */
+
+.booking-inner{
+  display:flex;flex-direction:column;align-items:center;gap:24px;
+  max-width:920px;text-align:center;
+}
+.booking-head{max-width:660px}
+.booking-kicker{
+  margin:0 0 12px;font-size:11.5px;font-weight:800;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--brand-on-dark);
+}
+.booking .section-title{margin-bottom:10px}
+.booking .section-sub{margin:0 auto;max-width:560px;font-size:16.5px}
+
+/* Кнопка — главное действие, поэтому крупная и по центру */
+.booking-form{
+  background:none;box-shadow:none;padding:0;gap:10px;
+  align-items:center;width:100%;margin:4px 0 0;
+}
+.booking-submit{min-width:300px;justify-content:center;font-weight:700}
+.booking-form .form-note{margin:0;color:rgba(255,246,236,.55)}
+
+/* Разделитель «или свяжитесь напрямую» */
+.booking-or{
+  display:flex;align-items:center;gap:14px;
+  width:min(100%,560px);margin:0;
+  font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted-dark);
+}
+.booking-or::before,.booking-or::after{content:"";flex:1;height:1px;background:rgba(255,246,236,.16)}
+.booking-or span{white-space:nowrap}
+
+/* Три карточки контактов: равные, в один ряд — читаются как список */
+.booking-contacts{
+  list-style:none;margin:0;padding:0;width:100%;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch;
+}
+.bc-card{display:flex}
+.bc-card > a,.bc-card > div{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:18px 14px;border-radius:16px;text-align:center;
+  background:rgba(255,246,236,.05);
+  border:1px solid rgba(255,246,236,.13);
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.bc-card > a:hover,.bc-card > a:focus-visible{
+  background:rgba(255,246,236,.09);border-color:rgba(242,118,74,.55);transform:translateY(-2px);
+}
+.bc-ico{font-size:19px;line-height:1;margin-bottom:4px}
+.bc-ico-img{width:22px;height:22px;display:block;margin-bottom:4px}
+.bc-label{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dark)}
+.bc-value{font-size:15.5px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.bc-hint{font-size:12px;line-height:1.35;color:var(--muted-dark)}
+
+/* Telegram — в общей оси, но текст внутри карточки по левому краю */
+.booking .tg-panel{width:min(100%,540px);margin:2px 0 0;text-align:left}
+
+@media (max-width:760px){
+  .booking-inner{gap:20px}
+  .booking-contacts{grid-template-columns:1fr;gap:10px}
+  .bc-card > a,.bc-card > div{
+    display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:1px;
+    align-items:center;text-align:left;padding:13px 16px;
+  }
+  .bc-ico,.bc-ico-img{grid-row:1 / span 2;margin:0}
+  .bc-label,.bc-value,.bc-hint{grid-column:2}
+  .bc-hint{display:none}
+}
+@media (max-width:560px){
+  .booking-submit{min-width:0;width:100%}
+  .booking-or span{font-size:10.5px}
+  .booking .tg-panel{padding:15px 16px 16px}
+}
+
 /* ---------- Уважение к настройке «меньше движения» ----------
    Включается на уровне системы (Windows: Параметры → Спец. возможности → Визуальные эффекты). */
 @media (prefers-reduced-motion:reduce){

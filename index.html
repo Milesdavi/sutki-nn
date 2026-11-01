@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;700;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=19">
+<link rel="stylesheet" href="styles.css?v=20">
 <script>document.documentElement.className+=" js";</script>
 <link rel="icon" type="image/svg+xml" href="img/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
@@ -252,36 +252,61 @@
   </section>
 
   <!-- BOOKING -->
-  <section class="section section-dark" id="booking">
+  <section class="section section-dark booking" id="booking">
     <div class="container booking-inner">
-      <div class="booking-text">
-        <h2 class="section-title light">Быстрое бронирование</h2>
-        <p class="section-sub light">Нажмите «Забронировать» — подберём квартиру и перезвоним вам.</p>
-        <ul class="booking-points">
-          <li>📞 <a href="tel:+79056698580">+7 905 669-85-80</a> — круглосуточно</li>
-          <li><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp" width="17" height="17"> WhatsApp: <a href="https://wa.me/79056698580"><b>+7 905 669-85-80</b></a></li>
-          <li>📍 Большая Покровская, 75</li>
-        </ul>
-
-        <!-- Telegram + прокси: по шагам, чтобы было понятно, зачем прокси -->
-        <div class="tg-panel">
-          <p class="tg-panel-top">
-            <img class="mes-ico" src="img/ic-tg.svg" alt="" width="18" height="18">
-            <span>Telegram</span>
-            <a class="tg-panel-handle js-tg-link" href="https://t.me/Natali101219" target="_blank" rel="noopener">@Natali101219</a>
-          </p>
-          <p class="tg-panel-why">Не открывается чат — почти всегда дело в блокировке. Прокси её обходит, ставится за пару секунд.</p>
-          <ol class="tg-steps">
-            <li>Сначала подключите прокси кнопкой ниже — один тап, без настроек.</li>
-            <li>Потом вернитесь сюда и нажмите на @Natali101219 — переписка откроется.</li>
-          </ol>
-          <a class="tg-proxy-btn" href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">Подключить прокси →</a>
-        </div>
+      <div class="booking-head">
+        <p class="booking-kicker">Бронирование</p>
+        <h2 class="section-title light center">Быстрое бронирование</h2>
+        <p class="section-sub light center">Оставьте заявку — подберём квартиру под ваши даты, назовём цену и перезвоним вам.</p>
       </div>
+
       <form class="booking-form" id="bookForm" autocomplete="off">
-        <button type="submit" class="btn btn-primary btn-block btn-lg">Забронировать</button>
-        <p class="form-note">Нажимая кнопку, вы соглашаетесь с политикой обработки данных.</p>
+        <button type="submit" class="btn btn-primary btn-lg booking-submit">Забронировать</button>
+        <p class="form-note">Без предоплаты · отмена без штрафа за 24 часа</p>
       </form>
+
+      <p class="booking-or"><span>или свяжитесь напрямую</span></p>
+
+      <ul class="booking-contacts">
+        <li class="bc-card">
+          <a href="tel:+79056698580">
+            <span class="bc-ico" aria-hidden="true">📞</span>
+            <span class="bc-label">Телефон</span>
+            <span class="bc-value">+7 905 669-85-80</span>
+            <span class="bc-hint">круглосуточно</span>
+          </a>
+        </li>
+        <li class="bc-card">
+          <a href="https://wa.me/79056698580">
+            <img class="bc-ico-img" src="img/ic-wa.svg" alt="" width="22" height="22">
+            <span class="bc-label">WhatsApp</span>
+            <span class="bc-value">+7 905 669-85-80</span>
+            <span class="bc-hint">напишите, если не дозвонились</span>
+          </a>
+        </li>
+        <li class="bc-card">
+          <div>
+            <span class="bc-ico" aria-hidden="true">📍</span>
+            <span class="bc-label">Адрес</span>
+            <span class="bc-value">Большая Покровская, 75</span>
+            <span class="bc-hint">центр города, пешком до Кремля</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="tg-panel">
+        <p class="tg-panel-top">
+          <img class="mes-ico" src="img/ic-tg.svg" alt="" width="18" height="18">
+          <span>Telegram</span>
+          <a class="tg-panel-handle js-tg-link" href="https://t.me/Natali101219" target="_blank" rel="noopener">@Natali101219</a>
+        </p>
+        <p class="tg-panel-why">Не открывается чат — почти всегда дело в блокировке. Прокси её обходит, ставится за пару секунд.</p>
+        <ol class="tg-steps">
+          <li>Сначала подключите прокси кнопкой ниже — один тап, без настроек.</li>
+          <li>Потом вернитесь сюда и нажмите на @Natali101219 — переписка откроется.</li>
+        </ol>
+        <a class="tg-proxy-btn" href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">Подключить прокси →</a>
+      </div>
     </div>
   </section>
 
