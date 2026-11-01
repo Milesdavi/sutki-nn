@@ -251,30 +251,70 @@ function observeReveals() {
 renderCards();
 observeReveals();
 
-/* Клик по метке: закрыть все остальные баллуны, показать свой, поднять метку над остальными */
-function markerElementClick(el, markers, balloon, marker) {
-  /* если балун вылезает за край карты — подталкиваем его внутрь */
-  const clampBalloon = () => {
-    const mapEl = document.getElementById('flatMap');
-    if (!mapEl) return;
-    const mr = mapEl.getBoundingClientRect();
-    const r = balloon.getBoundingClientRect();
-    const pad = 8;
-    const dl = (mr.left + pad) - r.left;
-    const dr = r.right - (mr.right - pad);
-    if (dl > 0) balloon.style.transform = `translateX(calc(-50% + ${Math.round(dl)}px))`;
-    else if (dr > 0) balloon.style.transform = `translateX(calc(-50% - ${Math.round(dr)}px))`;
-    else balloon.style.transform = '';
+/* Ссылка на Яндекс.Карты: rtext — точки маршрута через «~»,
+   пустая первая точка = «моё местоположение», rtt=pd — пешком, rtt=auto — на машине.
+   Второй аргумент — куда едем, первый (необязательный) — откуда. */
+function routeUrl(to, from, mode) {
+  const p = c => `${c[0]}%2C${c[1]}`;
+  return `https://yandex.ru/maps/?rtext=${from ? p(from) : ''}~${p(to)}&rtt=${mode === 'auto' ? 'auto' : 'pd'}`;
+}
+
+/* Баллун не должен вылезать за рамку карты:
+   по вертикали — раскрываем вверх, если снизу не помещается;
+   по горизонтали — подталкиваем внутрь. */
+function fitBalloon(el, balloon) {
+  const mapEl = document.getElementById('flatMap');
+  if (!mapEl) return;
+  const pad = 10;
+  balloon.style.transform = '';
+  balloon.style.maxHeight = '';
+  balloon.style.overflowY = '';
+  balloon.classList.remove('ym-balloon-up');
+
+  const mr = mapEl.getBoundingClientRect();
+  const pr = el.getBoundingClientRect();
+  let br = balloon.getBoundingClientRect();
+
+  /* сравниваем, где больше места, и раскрываем в ту сторону */
+  const roomBelow = (mr.bottom - pr.bottom) - 14;
+  const roomAbove = (pr.top - mr.top) - 14;
+  if (roomBelow < br.height && roomAbove > roomBelow) {
+    balloon.classList.add('ym-balloon-up');
+    br = balloon.getBoundingClientRect();
+  }
+
+  /* баллун выше самой карты — ограничиваем высоту и включаем прокрутку */
+  const room = Math.max(roomBelow, roomAbove) - pad;
+  if (br.height > room && room > 150) {
+    balloon.style.maxHeight = `${Math.round(room)}px`;
+    balloon.style.overflowY = 'auto';
+    br = balloon.getBoundingClientRect();
+  }
+
+  const dl = (mr.left + pad) - br.left;
+  const dr = br.right - (mr.right - pad);
+  if (dl > 0) balloon.style.transform = `translateX(calc(-50% + ${Math.round(dl)}px))`;
+  else if (dr > 0) balloon.style.transform = `translateX(calc(-50% - ${Math.round(dr)}px))`;
+}
+
+/* Клик по метке: закрыть остальные баллуны, показать свой, поднять метку наверх */
+function markerElementClick(el, markers, balloon, marker, trigger) {
+  const close = () => {
+    balloon.hidden = true;
+    balloon.style.transform = '';
+    balloon.style.maxHeight = '';
+    balloon.style.overflowY = '';
+    balloon.classList.remove('ym-balloon-up');
+    marker.update({ zIndex: 0 });
   };
   const open = () => {
-    markers.forEach(m => { m.el.querySelector('.ym-balloon').hidden = true; if (m.marker !== marker) m.marker.update({ zIndex: 0 }); });
+    markers.forEach(m => m.close());
     balloon.hidden = false;
     marker.update({ zIndex: 1000 });
-    clampBalloon();
+    fitBalloon(el, balloon);
   };
-  const close = () => { balloon.hidden = true; balloon.style.transform = ''; marker.update({ zIndex: 0 }); };
 
-  el.querySelector('.pin-price').addEventListener('click', e => {
+  (trigger || el.querySelector('.pin-price')).addEventListener('click', e => {
     e.stopPropagation();
     balloon.hidden ? open() : close();
   });
@@ -282,6 +322,10 @@ function markerElementClick(el, markers, balloon, marker) {
     e.stopPropagation();
     close();
   });
+  /* клики внутри окна не должны доходить до карты и закрывать его */
+  el.addEventListener('click', e => e.stopPropagation());
+
+  return { el, marker, balloon, close };
 }
 
 /* ---------- Карта квартир (Яндекс.Карты, JS API 3.0) ---------- */
@@ -338,55 +382,85 @@ function buildFlatMap(container) {
     flatGroups().forEach(group => {
       const c = FLAT_COORDS[group[0].id];
       const multi = group.length > 1;
+      const w = walkInfo(c);
       /* в API 3.0 координаты в порядке [долгота, широта] */
       const el = document.createElement('div');
       el.className = 'ym-pin';
       if (multi) {
         const price = `${fmt(Math.min(...group.map(x => x.price)))}–${fmt(Math.max(...group.map(x => x.price)))} ₽`;
-        const w = walkInfo(c);
         el.innerHTML = `
           <div class="pin-price">${price}</div>
           <div class="ym-balloon ym-balloon-multi" hidden>
             <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
             <div class="popup-title">${group[0].loc.split('·')[0].trim()}</div>
-            <div class="popup-loc">Две квартиры в одном доме</div>
-            <div class="ym-walk">🚶 до ${WALK_TARGET.name} — ~${w.min} мин пешком (${fmt(w.m)} м)</div>
-            ${group.map(x => `
+            <div class="popup-loc" style="margin-bottom:0">Две квартиры в одном доме</div>
+            <div class="ym-routes">
+              <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До офиса · ${w.min} мин</a>
+              <a class="ym-route" href="${routeUrl(c)}" target="_blank" rel="noopener">📍 От вашего положения</a>
+            </div>
+            <div class="ym-flats">
+              ${group.map(x => `
               <div class="ym-flat-row">
-                <b>${x.title}</b><span class="ym-flat-price">${fmt(x.price)} ₽</span>
-                <div class="ym-flat-buttons">
-                  <a class="ym-balloon-go" href="flat.html?id=${x.id}">Открыть →</a>
-                  <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Дом →</a>
-                </div>
+                <div class="ym-flat-head"><b>${x.title}</b><span class="ym-flat-price">${fmt(x.price)} ₽</span></div>
+                <a class="ym-flat-open" href="flat.html?id=${x.id}">Открыть квартиру →</a>
               </div>`).join('')}
-            <a class="ym-balloon-route ym-walk-route" href="https://yandex.ru/maps/?rtext=${c[0]}%2C${c[1]}~${WALK_TARGET.coords[0]}%2C${WALK_TARGET.coords[1]}&rtt=pedestrian" target="_blank" rel="noopener">🚶 Маршрут пешком до ${WALK_TARGET.name} →</a>
+            </div>
           </div>`;
       } else {
         const f = group[0];
-        const w = walkInfo(c);
         el.innerHTML = `
           <div class="pin-price">${fmt(f.price)} ₽</div>
           <div class="ym-balloon" hidden>
             <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
             <div class="popup-title">${f.title}</div>
             <div class="popup-loc">📍 ${f.loc}</div>
-            <b style="color:var(--brand)">${fmt(f.price)} ₽ / сутки</b>
-            <div class="ym-balloon-actions">
-              <a class="ym-balloon-go" href="flat.html?id=${f.id}">Открыть →</a>
-              <a class="ym-balloon-route" href="https://yandex.ru/maps/?rtext=~${c[0]}%2C${c[1]}&rtt=auto" target="_blank" rel="noopener">Дом →</a>
+            <b class="ym-price">${fmt(f.price)} ₽ <span>/ сутки</span></b>
+            <div class="ym-routes">
+              <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До офиса · ${w.min} мин</a>
+              <a class="ym-route" href="${routeUrl(c)}" target="_blank" rel="noopener">📍 От вашего положения</a>
             </div>
-            <div class="ym-walk">🚶 до ${WALK_TARGET.name} — ~${w.min} мин пешком (${fmt(w.m)} м)</div>
-            <a class="ym-balloon-route ym-walk-route" href="https://yandex.ru/maps/?rtext=${c[0]}%2C${c[1]}~${WALK_TARGET.coords[0]}%2C${WALK_TARGET.coords[1]}&rtt=pedestrian" target="_blank" rel="noopener">🚶 Маршрут пешком до ${WALK_TARGET.name} →</a>
+            <a class="ym-balloon-go ym-go-wide" href="flat.html?id=${f.id}">Открыть квартиру →</a>
           </div>`;
       }
 
       const balloon = el.querySelector('.ym-balloon');
       const marker = new YMapMarker({ coordinates: [c[1], c[0]], zIndex: 0 }, el);
       map.addChild(marker);
-      markers.push({ el, marker });
-
-      markerElementClick(el, markers, balloon, marker);
+      markers.push(markerElementClick(el, markers, balloon, marker));
     });
+
+    /* Офис гостей — метка-адрес без цены: видно, куда идти пешком от квартир */
+    const officeEl = document.createElement('div');
+    officeEl.className = 'ym-pin ym-pin-office';
+    const mins = FLATS.map(f => FLAT_COORDS[f.id]).filter(Boolean).map(cc => walkInfo(cc).min);
+    const range = mins.length ? `Пешком от наших квартир — ${Math.min(...mins)}–${Math.max(...mins)} мин` : '';
+    officeEl.innerHTML = `
+      <button class="pin-office" type="button"><span class="pin-office-dot"></span>${WALK_TARGET.name}</button>
+      <div class="ym-balloon ym-balloon-office" hidden>
+        <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
+        <div class="popup-title">${WALK_TARGET.name}</div>
+        <div class="popup-loc">Офис приёма гостей</div>
+        ${range ? `<div class="ym-office-hint">${range}</div>` : ''}
+        <a class="ym-route ym-route-main" href="${routeUrl(WALK_TARGET.coords)}" target="_blank" rel="noopener">📍 Маршрут от вашего положения</a>
+      </div>`;
+    const officeBalloon = officeEl.querySelector('.ym-balloon');
+    /* координаты в API 3.0 — [долгота, широта] */
+    const officeMarker = new YMapMarker({ coordinates: [WALK_TARGET.coords[1], WALK_TARGET.coords[0]], zIndex: 1 }, officeEl);
+    map.addChild(officeMarker);
+    markers.push(markerElementClick(officeEl, markers, officeBalloon, officeMarker, officeEl.querySelector('.pin-office')));
+
+    /* клик по пустому месту карты закрывает открытое окно */
+    try {
+      map.addChild(new ymaps3.YMapListener({ onClick: () => markers.forEach(m => m.close()) }));
+    } catch (err) { /* в старых сборках API слушателя нет — не критично */ }
+
+    /* кнопки масштаба */
+    try {
+      const {YMapControls, YMapZoomControl} = ymaps3;
+      if (YMapControls && YMapZoomControl) {
+        map.addChild(new YMapControls({position: 'right'}).addChild(new YMapZoomControl({})));
+      }
+    } catch (err) { /* без кнопок карта тоже работает: колесо и пинч */ }
 }
 
 /* ---------- Инициализация карты + запасной вариант ----------
