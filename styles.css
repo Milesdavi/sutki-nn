@@ -1103,4 +1103,44 @@ p,li,.faq-a,.review-body,.flat-desc,.card-loc,.hero-sub,.section-sub,.contacts-l
   .nav-mobile .btn{width:100%;padding:13px 20px;font-size:15.5px}
 }
 
+/* ---------- Плавающая кнопка карты: подпись и мягкая пульсация ----------
+   Круглая иконка без текста читалась как «что-то висит в углу». Теперь это
+   пилюля с подписью «Карта» слева от значка — понятно без наведения.
+   Пульсация — три спокойных круга сразу после загрузки, потом кнопка
+   затихает: привлекает взгляд, но не мигает перед глазами при чтении.
+   При системной настройке «меньше движения» пульсация отключается
+   правилом в конце файла. */
+
+.map-fab{
+  width:auto;height:52px;padding:0 18px 0 16px;
+  display:inline-flex;align-items:center;gap:8px;
+  border-radius:999px;
+  font-family:inherit;font-weight:800;font-size:14.5px;line-height:1;
+  letter-spacing:.01em;white-space:nowrap;text-decoration:none;
+  box-shadow:0 8px 24px rgba(43,33,24,.2), 0 0 0 1px var(--line), 0 0 0 1px rgba(242,118,74,.0);
+  animation:mapFabPulse 2.6s ease-out 3;
+}
+.map-fab svg{flex:0 0 auto}
+.map-fab-label{display:block;color:inherit}
+
+@keyframes mapFabPulse{
+  0%{
+    box-shadow:0 8px 24px rgba(43,33,24,.2), 0 0 0 1px var(--line),
+               0 0 0 0 rgba(242,118,74,.55);
+  }
+  70%{
+    box-shadow:0 8px 24px rgba(43,33,24,.2), 0 0 0 1px var(--line),
+               0 0 0 13px rgba(242,118,74,0);
+  }
+  100%{
+    box-shadow:0 8px 24px rgba(43,33,24,.2), 0 0 0 1px var(--line),
+               0 0 0 0 rgba(242,118,74,0);
+  }
+}
+
+@media (max-width:520px){
+  .map-fab{width:auto;height:48px;padding:0 15px 0 13px;gap:6px;font-size:13.5px}
+  .map-fab svg{width:20px;height:20px}
+}
+
 
