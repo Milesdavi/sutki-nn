@@ -142,6 +142,25 @@ $('#mThumbs').addEventListener('click', e => {
   showPhoto(+t.dataset.photo);
 });
 
+/* Свайп по фото на телефоне: горизонтальный жест листает снимки, вертикальный отдаём прокрутке окна */
+(() => {
+  const wrap = $('.modal-photo');
+  if (!wrap) return;
+  let sx = 0, sy = 0, active = false;
+  wrap.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse') return;          /* мышью листаем стрелками, свайп не нужен */
+    if (e.target.closest('.m-arrow')) return;
+    sx = e.clientX; sy = e.clientY; active = true;
+  });
+  wrap.addEventListener('pointerup', e => {
+    if (!active) return;
+    active = false;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) showPhoto(mIndex + (dx < 0 ? 1 : -1));
+  });
+  wrap.addEventListener('pointercancel', () => { active = false; });
+})();
+
 document.addEventListener('click', e => {
   /* клик по фото в карточке — быстрый просмотр; стрелки и точки слайдера не считаем */
   const media = e.target.closest('#cards .card-media[data-id]');

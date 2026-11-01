@@ -406,7 +406,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .modal-gallery img{width:100%;height:auto;min-height:0;display:block;object-fit:cover}
 /* Быстрый просмотр: стрелки поверх фото — тот же приём, что в слайдере карточек,
    но здесь они видны всегда (это основная навигация по фото в окне). */
-.modal-photo{position:relative;background:var(--bg-alt)}
+.modal-photo{position:relative;background:var(--bg-alt);touch-action:pan-y}
 .m-arrow{
   position:absolute;top:50%;transform:translateY(-50%);z-index:3;
   width:44px;height:44px;border:none;border-radius:50%;padding-bottom:3px;
