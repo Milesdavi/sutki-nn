@@ -350,7 +350,8 @@ function flatGroups() {
   return Object.values(g);
 }
 
-/* «Как дойти до работы» — офис гостей (АО «Транснефть – Подводсервис»), ул. Решетниковская, 4 */
+/* Частый ориентир гостей: ул. Решетниковская, 4 — сюда приезжают в командировку
+   и почти всегда спрашивают, как дойти пешком от квартиры */
 const WALK_TARGET = {
   name: 'Решетниковская, 4',
   coords: [56.314707, 44.001881]
@@ -395,7 +396,7 @@ function buildFlatMap(container) {
             <div class="popup-title">${group[0].loc.split('·')[0].trim()}</div>
             <div class="popup-loc" style="margin-bottom:0">Две квартиры в одном доме</div>
             <div class="ym-routes">
-              <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До офиса · ${w.min} мин</a>
+              <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До Решетниковской, 4 · ${w.min} мин</a>
               <a class="ym-route" href="${routeUrl(c)}" target="_blank" rel="noopener">📍 От вашего положения</a>
             </div>
             <div class="ym-flats">
@@ -419,7 +420,7 @@ function buildFlatMap(container) {
               <a class="ym-open" href="flat.html?id=${f.id}">Открыть →</a>
             </div>
             <div class="ym-routes">
-              <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До офиса · ${w.min} мин</a>
+              <a class="ym-route" href="${routeUrl(WALK_TARGET.coords, c)}" target="_blank" rel="noopener">🚶 До Решетниковской, 4 · ${w.min} мин</a>
               <a class="ym-route" href="${routeUrl(c)}" target="_blank" rel="noopener">📍 От вашего положения</a>
             </div>
           </div>`;
@@ -431,7 +432,7 @@ function buildFlatMap(container) {
       markers.push(markerElementClick(el, markers, balloon, marker));
     });
 
-    /* Офис гостей — метка-адрес без цены: видно, куда идти пешком от квартир */
+    /* Метка-адрес без цены: популярная точка, куда гостям нужно дойти пешком */
     const officeEl = document.createElement('div');
     officeEl.className = 'ym-pin ym-pin-office';
     const mins = FLATS.map(f => FLAT_COORDS[f.id]).filter(Boolean).map(cc => walkInfo(cc).min);
@@ -441,7 +442,7 @@ function buildFlatMap(container) {
       <div class="ym-balloon ym-balloon-office" hidden>
         <button class="ym-balloon-close" type="button" aria-label="Закрыть">✕</button>
         <div class="popup-title">${WALK_TARGET.name}</div>
-        <div class="popup-loc">Офис приёма гостей</div>
+        <div class="popup-loc">Гости часто спрашивают, как сюда дойти</div>
         ${range ? `<div class="ym-office-hint">${range}</div>` : ''}
         <a class="ym-route ym-route-main" href="${routeUrl(WALK_TARGET.coords)}" target="_blank" rel="noopener">📍 Маршрут от вашего положения</a>
       </div>`;

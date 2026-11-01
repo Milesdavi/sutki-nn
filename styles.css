@@ -300,7 +300,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 }
 .ym-balloon{
   position:absolute;top:46px;left:50%;transform:translateX(-50%);z-index:10;
-  width:236px;box-sizing:border-box;
+  width:264px;box-sizing:border-box;
   background:#fff;border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(43,33,24,.28);
   line-height:1.45;overscroll-behavior:contain;
 }
@@ -329,7 +329,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   white-space:nowrap;line-height:1.2;padding:6px 0;border-bottom:2px solid transparent;
 }
 .ym-open:hover{border-bottom-color:var(--brand)}
-/* Маршруты: пешком до офиса и от текущего положения */
+/* Маршруты: пешком до Решетниковской, 4 и от текущего положения */
 .ym-routes{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 .ym-route{
   display:flex;align-items:center;justify-content:center;gap:6px;
@@ -353,7 +353,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   font-weight:700;font-size:13px;color:var(--brand-ink);text-decoration:none;
 }
 .ym-flat-open:hover{text-decoration:underline}
-/* Метка офиса: только адрес, без цены */
+/* Метка адреса: только название, без цены */
 .ym-pin-office::after{border-top-color:var(--dark)}
 .pin-office{
   display:flex;align-items:center;gap:7px;background:#fff;color:var(--dark);
