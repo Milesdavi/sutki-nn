@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;700;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=14">
+<link rel="stylesheet" href="styles.css?v=15">
 <script>document.documentElement.className+=" js";</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
 </head>
@@ -297,7 +297,12 @@
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mTitle">
     <button type="button" class="modal-close" data-close aria-label="Закрыть">✕</button>
     <div class="modal-gallery">
-      <img id="mImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Фото квартиры" width="800" height="600" decoding="async">
+      <div class="modal-photo">
+        <img id="mImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Фото квартиры" width="800" height="600" decoding="async">
+        <button type="button" class="m-arrow m-prev" id="mPrev" data-mdir="-1" aria-label="Предыдущее фото" hidden>‹</button>
+        <button type="button" class="m-arrow m-next" id="mNext" data-mdir="1" aria-label="Следующее фото" hidden>›</button>
+        <span class="m-count" id="mCount" hidden>1 / 1</span>
+      </div>
       <div class="modal-thumbs" id="mThumbs"></div>
     </div>
     <div class="modal-body">
@@ -322,6 +327,6 @@
 <script src="data.js?v=1"></script>
 <script src="slider.js?v=2"></script>
 <script src="contact.js?v=8"></script>
-<script src="app.js?v=19"></script>
+<script src="app.js?v=20"></script>
 </body>
 </html>

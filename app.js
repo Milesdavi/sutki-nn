@@ -76,6 +76,23 @@ $('#filters').addEventListener('click', e => {
 const modal = $('#modal');
 let currentFlat = null;
 let lastFocus = null;
+let mPhotos = [];
+let mIndex = 0;
+
+/* Переключение фото в быстром просмотре.
+   Одна точка правды для стрелок, миниатюр и клавиатуры: все зовут showPhoto(). */
+function showPhoto(k) {
+  if (!mPhotos.length) return;
+  mIndex = (k + mPhotos.length) % mPhotos.length;
+  const img = $('#mImg');
+  img.src = mPhotos[mIndex];
+  if (currentFlat) img.alt = `${currentFlat.title} — фото ${mIndex + 1} из ${mPhotos.length}`;
+  $('#mThumbs').querySelectorAll('img').forEach((t, i) => t.classList.toggle('active', i === mIndex));
+  const many = mPhotos.length > 1;
+  const count = $('#mCount');
+  if (count) { count.textContent = `${mIndex + 1} / ${mPhotos.length}`; count.hidden = !many; }
+  ['#mPrev', '#mNext'].forEach(s => { const b = $(s); if (b) b.hidden = !many; });
+}
 
 function openModal(id) {
   const f = FLATS.find(x => x.id === id);
@@ -83,11 +100,12 @@ function openModal(id) {
   lastFocus = document.activeElement;
   currentFlat = f;
   const photos = f.photos && f.photos.length ? f.photos : [f.img];
-  $('#mImg').src = photos[0];
-  $('#mImg').alt = f.title;
+  mPhotos = photos;
   $('#mThumbs').innerHTML = photos.map((p, i) =>
     `<img src="${p}" alt="${f.title} — фото ${i + 1} из ${photos.length}" data-photo="${i}" class="${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" width="64" height="48">`
   ).join('');
+  /* Первое фото и состояние стрелок — через showPhoto, чтобы не разъезжались индексы */
+  showPhoto(0);
   $('#mTitle').textContent = f.title;
   $('#mLoc').textContent = '📍 ' + f.loc;
   $('#mFeats').innerHTML = f.feats.map(x => `<span class="feat">${x}</span>`).join('');
@@ -121,9 +139,7 @@ $('#mNights').addEventListener('change', updateTotal);
 $('#mThumbs').addEventListener('click', e => {
   const t = e.target.closest('[data-photo]');
   if (!t) return;
-  $('#mImg').src = t.src;
-  $('#mImg').alt = t.alt;
-  $('#mThumbs').querySelectorAll('img').forEach(x => x.classList.toggle('active', x === t));
+  showPhoto(+t.dataset.photo);
 });
 
 document.addEventListener('click', e => {
@@ -133,12 +149,21 @@ document.addEventListener('click', e => {
     openModal(media.dataset.id);
     return;
   }
+  const arr = e.target.closest('[data-mdir]');
+  if (arr) { showPhoto(mIndex + +arr.dataset.mdir); return; }
   const open = e.target.closest('[data-open]');
   if (open) { openModal(open.dataset.open); return; }
   if (e.target.closest('[data-close]')) closeModal();
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); return; }
+  /* Стрелки листают фото, пока открыт быстрый просмотр (но не мешаем полям формы) */
+  if (!modal.hidden && !e.target.closest('select,input,textarea') &&
+      (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+    e.preventDefault();
+    showPhoto(mIndex + (e.key === 'ArrowRight' ? 1 : -1));
+    return;
+  }
   const active = document.activeElement;
   if ((e.key === 'Enter' || e.key === ' ') && active && active.classList &&
       active.classList.contains('card-media') && active.dataset.id) {

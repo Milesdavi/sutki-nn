@@ -404,6 +404,29 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 }
 .modal-gallery{background:var(--bg-alt);position:sticky;top:0;align-self:start}
 .modal-gallery img{width:100%;height:auto;min-height:0;display:block;object-fit:cover}
+/* Быстрый просмотр: стрелки поверх фото — тот же приём, что в слайдере карточек,
+   но здесь они видны всегда (это основная навигация по фото в окне). */
+.modal-photo{position:relative;background:var(--bg-alt)}
+.m-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:44px;height:44px;border:none;border-radius:50%;padding-bottom:3px;
+  background:rgba(255,255,255,.94);color:var(--ink);
+  font-size:24px;line-height:1;font-weight:700;cursor:pointer;
+  box-shadow:0 4px 14px rgba(43,33,24,.25);
+  display:grid;place-items:center;
+  transition:background .2s,color .2s;
+}
+/* brand-ink, а не brand: белый глиф на #B23C17 даёт 5.9:1, на #E4572E — только 3.7:1 */
+.m-arrow:hover{background:var(--brand-ink);color:#fff}
+.m-arrow[hidden]{display:none}
+.m-prev{left:10px}
+.m-next{right:10px}
+.m-count{
+  position:absolute;bottom:12px;right:12px;z-index:3;
+  background:var(--dark);color:#fff;
+  font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;
+}
+.m-count[hidden]{display:none}
 .modal-thumbs{display:flex;gap:8px;padding:12px}
 .modal-thumbs img{width:64px;height:48px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent}
 .modal-thumbs img.active{border-color:var(--brand)}
