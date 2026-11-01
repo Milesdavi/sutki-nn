@@ -2,8 +2,17 @@
 
 const fmt = n => n.toLocaleString('ru-RU');
 const $ = s => document.querySelector(s);
-const NIGHT_WORDS =  ['ночь', 'ночи', 'ночей'];
-const nightWord = n => n === 1 ? NIGHT_WORDS[0] : n < 5 ? NIGHT_WORDS[1] : NIGHT_WORDS[2];
+
+/* Русские склонения: plural(2, ['ночь','ночи','ночей']) -> 'ночи' */
+const plural = (n, forms) => {
+  const a = Math.abs(n) % 100, b = a % 10;
+  if (a > 10 && a < 20) return forms[2];
+  if (b === 1) return forms[0];
+  if (b >= 2 && b <= 4) return forms[1];
+  return forms[2];
+};
+const nightWord = n => plural(n, ['ночь', 'ночи', 'ночей']);
+const reviewWord = n => plural(n, ['отзыв', 'отзыва', 'отзывов']);
 
 const id = new URLSearchParams(location.search).get('id');
 const flat = FLATS.find(f => f.id === id) || FLATS[0];
@@ -17,24 +26,23 @@ $('#crumbType').textContent = flat.type;
 /* ---------- Галерея ---------- */
 const PHOTOS = flat.photos.length ? flat.photos : [flat.img];
 $('#gallery').innerHTML = `
-  <div class="s-track">${PHOTOS.map((p, i) => `<img src="${p}" alt="${flat.title} — фото ${i + 1}" data-i="${i}">`).join('')}</div>
+  <div class="s-track">${PHOTOS.map((p, i) => `<img src="${p}" alt="${flat.title} — фото ${i + 1}" data-i="${i}" decoding="async" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>`).join('')}</div>
   ${PHOTOS.length > 1 ? `
   <button class="s-arrow s-prev" data-dir="-1" aria-label="Предыдущее фото">‹</button>
   <button class="s-arrow s-next" data-dir="1" aria-label="Следующее фото">›</button>` : ''}
   <div class="s-dots">${PHOTOS.map((_, i) => `<button class="s-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Фото ${i + 1}"></button>`).join('')}</div>
   <span class="s-count" data-count>1 / ${PHOTOS.length}</span>`;
 $('#gThumbs').innerHTML = PHOTOS.map((p, i) =>
-  `<img src="${p}" alt="" data-photo="${i}" class="${i === 0 ? 'active' : ''}" loading="lazy">`).join('');
+  `<img src="${p}" alt="Фото ${i + 1}" data-photo="${i}" class="${i === 0 ? 'active' : ''}" loading="lazy" decoding="async">`).join('');
 
 initSlider($('#gallery'));
 
 $('#gThumbs').addEventListener('click', e => {
   const t = e.target.closest('[data-photo]');
   if (!t) return;
-  const track = $('#gallery .s-track');
-  track.style.transform = `translateX(-${t.dataset.photo * 100}%)`;
-  $('#gallery').querySelectorAll('.s-dot').forEach(d => d.classList.toggle('active', d.dataset.i === t.dataset.photo));
-  $('#gallery [data-count]').textContent = `${+t.dataset.photo + 1} / ${PHOTOS.length}`;
+  const k = +t.dataset.photo;
+  /* Идём через API слайдера, иначе стрелки «прыгают» на второй слайд */
+  if ($('#gallery')._go) $('#gallery')._go(k);
   $('#gThumbs').querySelectorAll('img').forEach(x => x.classList.toggle('active', x === t));
 });
 
@@ -51,7 +59,7 @@ $('#fMetro').textContent = flat.metro;
 
 /* ---------- Цена и калькулятор ---------- */
 $('#fPrice').textContent = `${fmt(flat.price)} ₽`;
-$('#fRating').innerHTML = `<span class="stars-inline">★ ${flat.rating.toFixed(1)}</span> · ${flat.reviews} отзывов`;
+$('#fRating').innerHTML = `<span class="stars-inline">★ ${flat.rating.toFixed(1)}</span> · ${flat.reviews} ${reviewWord(flat.reviews)}`;
 
 function updateTotal() {
   const nights = +$('#bNights').value;

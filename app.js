@@ -5,6 +5,21 @@
 const fmt = n => n.toLocaleString('ru-RU');
 const $ = s => document.querySelector(s);
 
+/* Русские склонения: plural(3, ['квартира','квартиры','квартир']) -> 'квартиры' */
+const plural = (n, forms) => {
+  const a = Math.abs(n) % 100, b = a % 10;
+  if (a > 10 && a < 20) return forms[2];
+  if (b === 1) return forms[0];
+  if (b >= 2 && b <= 4) return forms[1];
+  return forms[2];
+};
+const FLAT_WORD = ['квартира', 'квартиры', 'квартир'];
+const GUEST_WORD = ['гостя', 'гостей', 'гостей'];
+const NIGHT_WORD = ['ночь', 'ночи', 'ночей'];
+const flatWord = n => plural(n, FLAT_WORD);
+const guestWord = n => plural(n, GUEST_WORD);
+const nightWord = n => plural(n, NIGHT_WORD);
+
 /* ---------- Рендер карточек ---------- */
 function cardHTML(f) {
   const feats = f.feats.slice(0, 4).map(x => `<span class="feat">${x}</span>`).join('');
@@ -24,12 +39,28 @@ function cardHTML(f) {
   </article>`;
 }
 
-function renderCards(filter = 'all') {
-  const list = FLATS.filter(f => filter === 'all' || f.tags.includes(filter) || String(f.rooms) === filter);
+/* Фильтры каталога: одна точка правды для чипов и поиска */
+const FILTERS = {
+  all: () => true,
+  /* rooms в data.js хранится строкой ('2'), поэтому сравниваем через Number */
+  '1': f => Number(f.rooms) === 1,
+  '2': f => Number(f.rooms) === 2,
+  '3': f => Number(f.rooms) === 3,
+  family: f => f.tags.includes('family'),
+  kreml: f => f.tags.includes('kreml'),
+  budget: f => f.price < 4000
+};
+
+function paintCards(list) {
   $('#cards').innerHTML = list.map(cardHTML).join('');
   $('#empty').hidden = list.length > 0;
-  document.querySelectorAll('[data-slider]').forEach(initSlider);
+  document.querySelectorAll('#cards [data-slider]').forEach(initSlider);
   observeReveals();
+}
+
+function renderCards(filter = 'all') {
+  const test = FILTERS[filter] || FILTERS.all;
+  paintCards(FLATS.filter(test));
 }
 
 /* ---------- Фильтры ---------- */
@@ -41,19 +72,21 @@ $('#filters').addEventListener('click', e => {
   renderCards(chip.dataset.filter);
 });
 
-/* ---------- Модальное окно ---------- */
+/* ---------- Модальное окно (быстрый просмотр с фото) ---------- */
 const modal = $('#modal');
 let currentFlat = null;
+let lastFocus = null;
 
 function openModal(id) {
   const f = FLATS.find(x => x.id === id);
   if (!f) return;
+  lastFocus = document.activeElement;
   currentFlat = f;
   const photos = f.photos && f.photos.length ? f.photos : [f.img];
   $('#mImg').src = photos[0];
   $('#mImg').alt = f.title;
   $('#mThumbs').innerHTML = photos.map((p, i) =>
-    `<img src="${p}" alt="" data-photo="${i}" class="${i === 0 ? 'active' : ''}">`
+    `<img src="${p}" alt="${f.title} — фото ${i + 1} из ${photos.length}" data-photo="${i}" class="${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" width="64" height="48">`
   ).join('');
   $('#mTitle').textContent = f.title;
   $('#mLoc').textContent = '📍 ' + f.loc;
@@ -62,10 +95,14 @@ function openModal(id) {
   updateTotal();
   modal.hidden = false;
   document.body.style.overflow = 'hidden';
+  const close = modal.querySelector('.modal-close');
+  if (close) close.focus();
 }
 function closeModal() {
+  if (modal.hidden) return;
   modal.hidden = true;
   document.body.style.overflow = '';
+  if (lastFocus && lastFocus.isConnected) lastFocus.focus();
 }
 
 function updateTotal() {
@@ -76,49 +113,87 @@ function updateTotal() {
   if (nights >= 30) disc = 0.25;
   else if (nights >= 7) disc = 0.10;
   if (disc) total = Math.round(total * (1 - disc));
-  $('#mTotal').textContent =
-    (disc ? `${fmt(currentFlat.price * nights)} ₽ − ${Math.round(disc * 100)}% = ` : '') + `${fmt(total)} ₽ за ${nights} ${nights === 1 ? 'ночь' : nights < 5 ? 'ночи' : 'ночей'}`;
+  $('#mTotal').innerHTML =
+    (disc ? `<s>${fmt(currentFlat.price * nights)} ₽</s> − ${Math.round(disc * 100)}% = ` : '') +
+    `<b>${fmt(total)} ₽</b> за ${nights} ${nightWord(nights)}`;
 }
 $('#mNights').addEventListener('change', updateTotal);
 $('#mThumbs').addEventListener('click', e => {
   const t = e.target.closest('[data-photo]');
   if (!t) return;
   $('#mImg').src = t.src;
+  $('#mImg').alt = t.alt;
   $('#mThumbs').querySelectorAll('img').forEach(x => x.classList.toggle('active', x === t));
 });
 
 document.addEventListener('click', e => {
+  /* клик по фото в карточке — быстрый просмотр; стрелки и точки слайдера не считаем */
+  const media = e.target.closest('#cards .card-media[data-id]');
+  if (media && !e.target.closest('.s-arrow, .s-dot') && Date.now() - (media._dragEnd || 0) > 350) {
+    openModal(media.dataset.id);
+    return;
+  }
   const open = e.target.closest('[data-open]');
   if (open) { openModal(open.dataset.open); return; }
   if (e.target.closest('[data-close]')) closeModal();
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); return; }
+  const active = document.activeElement;
+  if ((e.key === 'Enter' || e.key === ' ') && active && active.classList &&
+      active.classList.contains('card-media') && active.dataset.id) {
+    e.preventDefault();
+    openModal(active.dataset.id);
+  }
+});
 $('#mBook').addEventListener('click', () => {
   closeModal();
   /* Окно связи: позвонить / Telegram / WhatsApp / ВКонтакте (contact.js) */
-  openContactPopup();
+  openContactPopup(currentFlat ? currentFlat.title : undefined);
 });
 
 /* ---------- Поиск в герое ---------- */
+let toastTimer = null;
 $('#searchForm').addEventListener('submit', e => {
   e.preventDefault();
   const g = +$('#guests').value;
   const fits = FLATS.filter(f => f.guests >= g);
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   document.querySelector('.chip[data-filter="all"]').classList.add('active');
-  renderCards('all');
+  paintCards(fits);
   const t = $('#toast');
   t.textContent = fits.length
-    ? `Найдено ${fits.length} квартир для ${g} ${g === 1 ? 'гостя' : 'гостей'} — показываем все`
-    : `Для ${g} гостей пока нет квартир — позвоните, подберём!`;
+    ? `Найдено ${fits.length} ${flatWord(fits.length)} для ${g} ${guestWord(g)}`
+    : `Для ${g} ${guestWord(g)} пока нет квартир — позвоните, подберём!`;
   t.hidden = false;
-  setTimeout(() => t.hidden = true, 3500);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.hidden = true, 3500);
   document.getElementById('catalog').scrollIntoView({ behavior: 'smooth' });
 });
 
 /* ---------- Форма брони ---------- */
+function notify(text) {
+  const t = $('#toast');
+  t.textContent = text;
+  t.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.hidden = true, 4000);
+}
+
+const bPhone = $('#bPhone');
+if (bPhone) {
+  bPhone.addEventListener('input', () => bPhone.classList.remove('is-invalid'));
+}
+
 $('#bookForm').addEventListener('submit', e => {
   e.preventDefault();
+  const digits = bPhone ? bPhone.value.replace(/\D/g, '') : '';
+  if (bPhone && digits.length < 10) {
+    bPhone.classList.add('is-invalid');
+    bPhone.focus();
+    notify('Укажите телефон — перезвоним и подтвердим бронь');
+    return;
+  }
   e.target.reset();
   openContactPopup();
 });
@@ -131,13 +206,19 @@ document.querySelectorAll('[data-scroll]').forEach(b =>
 );
 
 /* ---------- Бургер ---------- */
+const closeNav = () => { $('#nav').classList.remove('open'); $('#burger').classList.remove('open'); };
 $('#burger').addEventListener('click', () => {
   $('#nav').classList.toggle('open');
   $('#burger').classList.toggle('open');
 });
-document.querySelectorAll('.nav a').forEach(a =>
-  a.addEventListener('click', () => { $('#nav').classList.remove('open'); $('#burger').classList.remove('open'); })
-);
+document.querySelectorAll('.nav a').forEach(a => a.addEventListener('click', closeNav));
+/* меню-шторка закрывается по Esc и по клику мимо неё */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+document.addEventListener('click', e => {
+  if (!$('#nav').classList.contains('open')) return;
+  if (e.target.closest('#nav, #burger')) return;
+  closeNav();
+});
 
 /* ---------- Счётчики статистики ---------- */
 function animateCount(el) {
@@ -241,11 +322,10 @@ function walkInfo(c) {
   return { m, min };
 }
 
-if (document.getElementById('flatMap') && window.ymaps3) {
-  ymaps3.ready.then(async () => {
-    const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker} = ymaps3;
+function buildFlatMap(container) {
+  const {YMap, YMapDefaultSchemeLayer, YMapDefaultFeaturesLayer, YMapMarker} = ymaps3;
 
-    const map = new YMap(document.getElementById('flatMap'), {
+  const map = new YMap(container, {
       location: { center: [44.0038, 56.3148], zoom: 15 },
       showScaleInCopyrights: true
     }, [
@@ -307,8 +387,75 @@ if (document.getElementById('flatMap') && window.ymaps3) {
 
       markerElementClick(el, markers, balloon, marker);
     });
-  });
 }
+
+/* ---------- Инициализация карты + запасной вариант ----------
+   JS API Яндекса может быть недоступен (блокировщики, ключ, сеть).
+   Тогда вместо пустого прямоугольника показываем список адресов с ценами. */
+function mapFallbackHTML() {
+  const groups = flatGroups();
+  const rows = groups.map(group => {
+    const lo = Math.min(...group.map(x => x.price));
+    const hi = Math.max(...group.map(x => x.price));
+    const price = lo === hi ? `${fmt(lo)} ₽` : `${fmt(lo)}–${fmt(hi)} ₽`;
+    const loc = group[0].loc.split('·')[0].trim();
+    const more = group.length > 1 ? ` · ${group.length} ${flatWord(group.length)}` : '';
+    return `<li>
+      <a href="flat.html?id=${group[0].id}">
+        <b>${loc}</b>${more}
+        <span>${price} / сутки</span>
+      </a>
+    </li>`;
+  }).join('');
+  return `
+    <div class="map-fallback-inner">
+      <div class="map-fallback-head">
+        <b>${FLATS.length} ${flatWord(FLATS.length)} в центре Нижнего Новгорода</b>
+        <span>Все адреса и цены — нажмите на адрес, чтобы открыть квартиру</span>
+      </div>
+      <ul class="map-fallback-list">${rows}</ul>
+      <a class="btn btn-ghost btn-sm" href="https://yandex.ru/maps/?text=${encodeURIComponent('Нижний Новгород, Большая Покровская, 75')}" target="_blank" rel="noopener">Открыть район на Яндекс.Картах →</a>
+    </div>`;
+}
+
+function initFlatMap() {
+  const el = document.getElementById('flatMap');
+  if (!el) return;
+
+  /* сразу рисуем запасной список: пустой блок карты выглядит как поломка */
+  el.classList.add('map-fallback');
+  el.innerHTML = mapFallbackHTML();
+
+  let done = false;
+  const tryInit = () => {
+    if (done) return true;
+    if (!window.ymaps3 || !window.ymaps3.ready) return false;
+    done = true;
+    window.ymaps3.ready.then(() => {
+      try {
+        el.classList.remove('map-fallback');
+        el.innerHTML = '';
+        buildFlatMap(el);
+      } catch (err) {
+        console.warn('Не удалось построить карту:', err);
+        el.classList.add('map-fallback');
+        el.innerHTML = mapFallbackHTML();
+      }
+    }).catch(() => {
+      el.classList.add('map-fallback');
+      el.innerHTML = mapFallbackHTML();
+    });
+    return true;
+  };
+
+  if (tryInit()) return;
+  let tries = 0;
+  const timer = setInterval(() => {
+    tries++;
+    if (tryInit() || tries >= 25) clearInterval(timer); /* ~10 c ожидания */
+  }, 400);
+}
+initFlatMap();
 
 const statObs = new IntersectionObserver(entries => {
   entries.forEach(en => {

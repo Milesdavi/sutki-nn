@@ -7,8 +7,8 @@
 <meta name="description" content="Аренда квартир посуточно в Нижнем Новгороде: студии и квартиры у Кремля, на Покровке, у стадиона и в центре. Онлайн-бронирование, честные цены, без посредников.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=4">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;700;900&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
 </head>
 <body>
@@ -27,11 +27,11 @@
     </nav>
     <div class="header-actions">
       <a class="phone" href="tel:+79056698580">+7 905 669-85-80</a>
-      <a class="hs js-tg-link" href="https://t.me/Natali101219" rel="noopener" title="Telegram — прокси подключится автоматически"><img src="img/ic-tg.svg" alt="Telegram"></a>
-      <a class="hs" href="https://wa.me/79056698580" target="_blank" rel="noopener" title="WhatsApp"><img src="img/ic-wa.svg" alt="WhatsApp"></a>
-      <a class="hs" href="https://vk.me/id317914778" target="_blank" rel="noopener" title="ВКонтакте"><img src="img/ic-vk.svg" alt="ВКонтакте"></a>
-      <button class="btn btn-primary btn-sm" data-scroll="#booking">Забронировать</button>
-      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+      <a class="hs js-tg-link" href="https://t.me/Natali101219" target="_blank" rel="noopener" title="Telegram — прокси подключится автоматически"><img src="img/ic-tg.svg" alt="Telegram" width="19" height="19"></a>
+      <a class="hs" href="https://wa.me/79056698580" target="_blank" rel="noopener" title="WhatsApp"><img src="img/ic-wa.svg" alt="WhatsApp" width="19" height="19"></a>
+      <a class="hs" href="https://vk.me/id317914778" target="_blank" rel="noopener" title="ВКонтакте"><img src="img/ic-vk.svg" alt="ВКонтакте" width="19" height="19"></a>
+      <button type="button" class="btn btn-primary btn-sm" data-scroll="#booking">Забронировать</button>
+      <button type="button" class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
@@ -50,8 +50,8 @@
         <h1 class="hero-title">Квартиры посуточно<br class="br-mobile-hide"> в <span class="accent">Нижнем Новгороде</span></h1>
         <p class="hero-sub">Заселение за 5 минут, честные цены и 6 проверенных квартир в самом центре города. Удобно для командировки, отпуска или выходных на Стрелке.</p>
         <div class="hero-cta">
-          <button class="btn btn-primary btn-lg" data-scroll="#catalog">Выбрать квартиру</button>
-          <button class="btn btn-ghost btn-lg" data-scroll="#booking">Быстрое бронирование</button>
+          <button type="button" class="btn btn-primary btn-lg" data-scroll="#catalog">Выбрать квартиру</button>
+          <button type="button" class="btn btn-ghost btn-lg" data-scroll="#booking">Быстрое бронирование</button>
         </div>
         <ul class="hero-points">
           <li>✓ От 2 700 ₽ / сутки</li>
@@ -98,13 +98,13 @@
       </div>
 
       <div class="filters" id="filters">
-        <button class="chip active" data-filter="all">Все</button>
-        <button class="chip" data-filter="1">1-комнатные</button>
-        <button class="chip" data-filter="2">2-комнатные</button>
-        <button class="chip" data-filter="3">3-комнатные</button>
-        <button class="chip" data-filter="family">Для семьи</button>
-        <button class="chip" data-filter="center">В центре</button>
-        <button class="chip" data-filter="kreml">Вид на Кремль</button>
+        <button type="button" class="chip active" data-filter="all">Все</button>
+        <button type="button" class="chip" data-filter="1">1-комнатные</button>
+        <button type="button" class="chip" data-filter="2">2-комнатные</button>
+        <button type="button" class="chip" data-filter="3">3-комнатные</button>
+        <button type="button" class="chip" data-filter="family">Для семьи</button>
+        <button type="button" class="chip" data-filter="budget">До 4 000 ₽</button>
+        <button type="button" class="chip" data-filter="kreml">Вид на Кремль</button>
       </div>
 
       <div class="cards" id="cards"><!-- карточки рендерит app.js --></div>
@@ -175,7 +175,7 @@
       <div class="section-head">
         <div>
           <h2 class="section-title">Отзывы гостей</h2>
-          <p class="section-sub">Средняя оценка 9.8 из 10 по 1 400+ отзывам за 2024 год.</p>
+          <p class="section-sub">Средняя оценка 9.8 из 10 по 1 400+ отзывам за 2025 год.</p>
         </div>
       </div>
       <div class="reviews-grid">
@@ -236,14 +236,14 @@
         <p class="section-sub light">Нажмите «Забронировать» — подберём квартиру и перезвоним вам.</p>
         <ul class="booking-points">
           <li>📞 <a href="tel:+79056698580">+7 905 669-85-80</a> — круглосуточно</li>
-          <li><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram"> Telegram: <a class="js-tg-link" href="https://t.me/Natali101219"><b>@Natali101219</b></a> <small class="tg-proxy-hint">не открывается? <a href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">свежий прокси →</a></small></li>
-          <li><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp"> WhatsApp: <a href="https://wa.me/79056698580"><b>+7 905 669-85-80</b></a></li>
+          <li><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram" width="17" height="17"> Telegram: <a class="js-tg-link" href="https://t.me/Natali101219"><b>@Natali101219</b></a> <small class="tg-proxy-hint">не открывается? <a href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">свежий прокси →</a></small></li>
+          <li><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp" width="17" height="17"> WhatsApp: <a href="https://wa.me/79056698580"><b>+7 905 669-85-80</b></a></li>
           <li>📍 Большая Покровская, 75</li>
         </ul>
       </div>
       <form class="booking-form" id="bookForm" autocomplete="off">
         <label class="field"><span>Имя</span><input type="text" id="bName" placeholder="Как к вам обращаться" required></label>
-        <label class="field"><span>Телефон</span><input type="tel" id="bPhone" placeholder="+7 (___) ___-__-__" required></label>
+        <label class="field"><span>Телефон</span><input type="tel" id="bPhone" placeholder="+7 (___) ___-__-__" inputmode="tel" autocomplete="tel" maxlength="20" required></label>
         <label class="field"><span>Ночей</span><select id="bNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>14</option><option>30</option></select></label>
         <button type="submit" class="btn btn-primary btn-block btn-lg">Забронировать</button>
         <p class="form-note">Нажимая кнопку, вы соглашаетесь с политикой обработки данных.</p>
@@ -260,8 +260,8 @@
         <div class="map-wrap"><div id="flatMap"></div></div>
         <h2 class="section-title" style="margin-top:34px">Контакты</h2>
         <p class="contacts-line">📞 <a href="tel:+79056698580">+7 905 669-85-80</a></p>
-        <p class="contacts-line"><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram"> Telegram: <a class="js-tg-link" href="https://t.me/Natali101219">@Natali101219</a> <small class="tg-proxy-hint">не открывается? <a href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">свежий прокси →</a></small></p>
-        <p class="contacts-line"><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp"> WhatsApp: <a href="https://wa.me/79056698580">+7 905 669-85-80</a></p>
+        <p class="contacts-line"><img class="mes-ico" src="img/ic-tg.svg" alt="Telegram" width="17" height="17"> Telegram: <a class="js-tg-link" href="https://t.me/Natali101219">@Natali101219</a> <small class="tg-proxy-hint">не открывается? <a href="https://t.me/s/NetGhostMTP" data-cp-proxy target="_blank" rel="noopener">свежий прокси →</a></small></p>
+        <p class="contacts-line"><img class="mes-ico" src="img/ic-wa.svg" alt="WhatsApp" width="17" height="17"> WhatsApp: <a href="https://wa.me/79056698580">+7 905 669-85-80</a></p>
         <p class="contacts-line">📍 Нижний Новгород, Большая Покровская, 75</p>
         <p class="contacts-line">🕒 Поддержка гостей — круглосуточно</p>
       </div>
@@ -293,10 +293,10 @@
 <!-- MODAL -->
 <div class="modal" id="modal" hidden>
   <div class="modal-backdrop" data-close></div>
-  <div class="modal-card" role="dialog" aria-modal="true">
-    <button class="modal-close" data-close aria-label="Закрыть">✕</button>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <button type="button" class="modal-close" data-close aria-label="Закрыть">✕</button>
     <div class="modal-gallery">
-      <img id="mImg" src="" alt="">
+      <img id="mImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Фото квартиры" width="800" height="600" decoding="async">
       <div class="modal-thumbs" id="mThumbs"></div>
     </div>
     <div class="modal-body">
@@ -305,10 +305,10 @@
       <div class="modal-feats" id="mFeats"></div>
       <p class="modal-desc" id="mDesc"></p>
       <div class="modal-calc">
-        <div class="calc-row"><label>Ночей <select id="mNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>30</option></select></label></div>
+        <div class="calc-row"><label>Ночей <select id="mNights"><option>1</option><option selected>2</option><option>3</option><option>5</option><option>7</option><option>14</option><option>30</option></select></label></div>
         <div class="calc-total" id="mTotal"></div>
       </div>
-      <button class="btn btn-primary btn-block btn-lg" id="mBook">Забронировать эту квартиру</button>
+      <button type="button" class="btn btn-primary btn-block btn-lg" id="mBook">Забронировать эту квартиру</button>
       <p class="form-note">Оплата при заезде · отмена без штрафа за 24 часа</p>
     </div>
   </div>
@@ -316,11 +316,11 @@
 
 <div class="toast" id="toast" hidden></div>
 
-<script src="https://api-maps.yandex.ru/v3/?apikey=f1e00c1d-72c6-45f5-abe2-8d5a169cfa6f&lang=ru_RU"></script>
-<script src="photos-list.js"></script>
-<script src="data.js"></script>
-<script src="slider.js"></script>
-<script src="contact.js?v=7"></script>
-<script src="app.js?v=10"></script>
+<script src="https://api-maps.yandex.ru/v3/?apikey=f1e00c1d-72c6-45f5-abe2-8d5a169cfa6f&amp;lang=ru_RU"></script>
+<script src="photos-list.js?v=1"></script>
+<script src="data.js?v=1"></script>
+<script src="slider.js?v=2"></script>
+<script src="contact.js?v=8"></script>
+<script src="app.js?v=14"></script>
 </body>
 </html>

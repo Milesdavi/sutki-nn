@@ -78,7 +78,7 @@ document.body.insertAdjacentHTML('beforeend', `
       <div class="cp-step">
         <span class="cp-step-n">1</span>
         <div><b>Подключите прокси</b><small>Telegram откроется сам и предложит «Включить» — жмите «Включить»</small></div>
-        <a class="cp-guide-btn" data-tg-proxy href="#">1. Подключить прокси</a>
+        <a class="cp-guide-btn" data-tg-proxy href="${CP.tgProxy.web}" target="_blank" rel="noopener">1. Подключить прокси</a>
       </div>
       <div class="cp-step">
         <span class="cp-step-n">2</span>

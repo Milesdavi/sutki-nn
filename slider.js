@@ -8,7 +8,8 @@ function mediaHTML(f) {
   const slides = f.photos.map((p, i) => `<img src="${p}" alt="${f.title} — фото ${i + 1}" loading="lazy" data-i="${i}">`).join('');
   const dots = f.photos.map((_, i) => `<button class="s-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Фото ${i + 1}"></button>`).join('');
   return `
-  <div class="card-media slider" data-slider>
+  <div class="card-media slider" data-slider data-id="${f.id}" role="button" tabindex="0"
+       aria-label="Быстрый просмотр: ${f.title}">
     <div class="s-track">${slides}</div>
     <button class="s-arrow s-prev" data-dir="-1" aria-label="Предыдущее фото">‹</button>
     <button class="s-arrow s-next" data-dir="1" aria-label="Следующее фото">›</button>
@@ -21,11 +22,17 @@ function mediaHTML(f) {
 function initSlider(slider) {
   const track = slider.querySelector('.s-track');
   const n = track.children.length;
-  if (n < 2) { slider.querySelectorAll('.s-arrow').forEach(a => a.style.display = 'none'); return; }
+  slider._dragEnd = 0;
+  if (n < 2) {
+    slider.querySelectorAll('.s-arrow').forEach(a => a.style.display = 'none');
+    slider._go = () => {};
+    slider._restart = () => {};
+    return;
+  }
   let i = 0, timer = null;
 
   const go = k => {
-    i = (k + n) % n;
+    i = (k + n)%n;
     track.style.transform = `translateX(-${i * 100}%)`;
     slider.querySelectorAll('.s-dot').forEach(d => d.classList.toggle('active', +d.dataset.i === i));
     const c = slider.querySelector('[data-count]');
@@ -33,6 +40,13 @@ function initSlider(slider) {
   };
   const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
   const auto = () => { stop(); timer = setInterval(() => go(i + 1), AUTO_SLIDE_MS); };
+
+  /* Публичный API — чтобы внешние миниатюры (flat.js) не ломали состояние */
+  slider._go = k => { go(k); stop(); auto(); };
+  slider._restart = () => { stop(); auto(); };
+  slider._stop = stop;
+  slider._current = () => i;
+  slider._count = n;
 
   slider.addEventListener('click', e => {
     const arr = e.target.closest('.s-arrow');
@@ -47,7 +61,7 @@ function initSlider(slider) {
   track.addEventListener('touchend', e => {
     if (x0 === null) return;
     const dx = e.changedTouches[0].clientX - x0;
-    if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); slider._dragEnd = Date.now(); }
     x0 = null; auto();
   }, { passive: true });
 
@@ -56,7 +70,7 @@ function initSlider(slider) {
   track.addEventListener('pointerup', e => {
     if (x0 === null || e.pointerType !== 'mouse') return;
     const dx = e.clientX - x0;
-    if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 40) { go(i + (dx < 0 ? 1 : -1)); slider._dragEnd = Date.now(); }
     x0 = null; stop(); auto();
   });
 

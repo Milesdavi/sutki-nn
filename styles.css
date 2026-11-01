@@ -4,11 +4,18 @@
   --bg-alt:#F3EEE4;
   --card:#FFFFFF;
   --ink:#2B2118;
-  --muted:#7A6A58;
+  --muted:#6E5E4B;
   --line:#E8DFD0;
+  --line-strong:#9C8560;
   --brand:#E4572E;
+  --brand-solid:#C7431F;
+  --brand-solid-dark:#A83A19;
+  --brand-ink:#B23C17;
   --brand-dark:#C7431F;
   --teal:#2E86AB;
+  --teal-ink:#1C6A8C;
+  --star:#A8740F;
+  --green:#1E7A3C;
   --dark:#231A12;
   --radius:18px;
   --shadow:0 10px 30px rgba(43,33,24,.08);
@@ -36,9 +43,9 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   border:none;border-radius:999px;font-weight:700;
   padding:14px 28px;font-size:16px;transition:.22s;
 }
-.btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(228,87,46,.35)}
-.btn-primary:hover{background:var(--brand-dark);transform:translateY(-2px)}
-.btn-ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.btn-primary{background:var(--brand-solid);color:#fff;box-shadow:0 8px 20px rgba(199,67,31,.28)}
+.btn-primary:hover{background:var(--brand-solid-dark);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border:2px solid var(--line-strong)}
 .btn-ghost:hover{border-color:var(--ink)}
 .btn-sm{padding:10px 20px;font-size:14px}
 .btn-lg{padding:16px 34px;font-size:17px}
@@ -139,8 +146,8 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   border:1.5px solid var(--line);background:#fff;border-radius:999px;
   padding:10px 20px;font-weight:700;font-size:14px;color:var(--muted);transition:.2s;
 }
-.chip:hover{border-color:var(--brand);color:var(--brand)}
-.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip:hover{border-color:var(--brand);color:var(--brand-ink)}
+.chip.active{background:var(--brand-solid);border-color:var(--brand-solid);color:#fff}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .card{
   background:var(--card);border-radius:var(--radius);overflow:hidden;
@@ -157,7 +164,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .s-track img{flex:0 0 100%;aspect-ratio:3/2;height:auto;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .s-arrow{
   position:absolute;top:50%;transform:translateY(-50%);z-index:2;
-  width:38px;height:38px;border:none;border-radius:50%;
+  width:44px;height:44px;border:none;border-radius:50%;
   background:rgba(255,255,255,.92);color:var(--ink);
   font-size:24px;line-height:1;font-weight:700;
   box-shadow:0 4px 14px rgba(43,33,24,.25);
@@ -167,15 +174,21 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .s-arrow:hover{background:#fff}
 .s-prev{left:10px}
 .s-next{right:10px}
+/* Точки: кнопка 24×24 (норма WCAG 2.2 AA), а сам кружок рисуется псевдоэлементом */
 .s-dots{
-  position:absolute;bottom:10px;left:0;right:0;z-index:2;
-  display:flex;justify-content:center;gap:6px;
+  position:absolute;bottom:2px;left:0;right:0;z-index:2;
+  display:flex;justify-content:center;gap:0;
 }
 .s-dot{
-  width:8px;height:8px;border-radius:50%;border:none;padding:0;
-  background:rgba(255,255,255,.55);transition:.2s;
+  position:relative;width:24px;height:24px;border-radius:50%;border:none;padding:0;
+  background:transparent;transition:background .2s;
 }
-.s-dot.active{background:#fff;width:20px;border-radius:999px}
+.s-dot::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.55);
+  transition:width .2s,background .2s;
+}
+.s-dot.active::before{background:#fff;width:20px}
 .s-count{
   position:absolute;top:12px;right:12px;z-index:2;
   background:rgba(35,26,18,.65);color:#fff;
@@ -194,18 +207,18 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   background:rgba(255,255,255,.92);border-radius:999px;padding:6px 12px;
   font-size:12px;font-weight:800;color:var(--ink);
 }
-.badge.hot{background:var(--brand);color:#fff}
+.badge.hot{background:var(--brand-solid);color:#fff}
 .card-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
 .card-title{font-size:18px}
-.card-link{color:inherit}
-.card-link:hover .card-title{color:var(--brand)}
+.card-link{display:block;color:inherit;padding:4px 0;margin:-4px 0}
+.card-link:hover .card-title{color:var(--brand-ink)}
 .card-loc{font-size:14px;color:var(--muted);font-weight:600}
 .card-feats{display:flex;flex-wrap:wrap;gap:6px}
 .feat{background:var(--bg-alt);border-radius:8px;padding:4px 10px;font-size:12.5px;font-weight:700;color:var(--muted)}
 .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:8px}
 .price b{font-family:'Unbounded';font-size:22px;color:var(--ink)}
 .price span{font-size:13px;color:var(--muted);font-weight:600}
-.rating{font-weight:800;font-size:14px;color:var(--teal)}
+.rating{font-weight:800;font-size:14px;color:var(--teal-ink)}
 .empty{text-align:center;color:var(--muted);font-weight:600;padding:40px 0}
 
 /* ---------- Advantages ---------- */
@@ -224,7 +237,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .step{position:relative;padding:26px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
 .step-num{
   position:absolute;top:-18px;left:22px;width:40px;height:40px;border-radius:12px;
-  background:var(--brand);color:#fff;display:grid;place-items:center;
+  background:var(--brand-solid);color:#fff;display:grid;place-items:center;
   font-family:'Unbounded';font-weight:900;font-size:18px;
 }
 .step h3{font-size:17px;margin:14px 0 8px}
@@ -237,7 +250,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .avatar{width:46px;height:46px;border-radius:50%;color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;flex-shrink:0}
 .review-head b{display:block;font-size:15px}
 .review-head span{font-size:13px;color:var(--muted)}
-.stars{margin-left:auto;color:#F2B33D;letter-spacing:2px}
+.stars{margin-left:auto;color:var(--star);letter-spacing:2px}
 .review p{color:var(--ink);font-size:15px}
 
 /* ---------- FAQ ---------- */
@@ -266,14 +279,14 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 /* ---------- Contacts ---------- */
 .contacts-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:50px}
 .contacts-line{font-size:16px;font-weight:600;margin-bottom:10px}
-.contacts-line a:hover{color:var(--brand)}
+.contacts-line a:hover{color:var(--brand-ink)}
 .map-embed{margin-top:22px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
 .map-embed iframe{width:100%;height:300px;border:0}
 .map-wrap{margin-top:18px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);position:relative;z-index:1}
 #flatMap{height:420px;width:100%;background:var(--bg-alt)}
 .map-note{font-size:13.5px;color:var(--muted);margin-top:12px}
 .pin-price{
-  background:var(--brand);color:#fff;font-weight:800;font-size:13px;
+  background:var(--brand-solid);color:#fff;font-weight:800;font-size:13px;
   padding:8px 14px;border:3px solid #fff;border-radius:999px;
   box-shadow:0 6px 16px rgba(43,33,24,.3);white-space:nowrap;
   cursor:pointer;transition:.2s;
@@ -282,7 +295,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .ym-pin{position:relative;transform:translate(-50%,-100%);width:max-content}
 .ym-pin::after{
   content:'';position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);
-  border:6px solid transparent;border-bottom:none;border-top:8px solid var(--brand);
+  border:6px solid transparent;border-bottom:none;border-top:8px solid var(--brand-solid);
   filter:drop-shadow(0 2px 2px rgba(43,33,24,.25));
 }
 .ym-balloon{
@@ -302,21 +315,21 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .ym-balloon-go:hover{filter:brightness(1.06)}
 .ym-balloon-actions{display:flex;gap:8px;margin-top:10px}
 .ym-balloon-go{
-  background:var(--brand);color:#fff;border-radius:999px;padding:9px 16px;
+  background:var(--brand-solid);color:#fff;border-radius:999px;padding:9px 16px;
   font-weight:700;text-decoration:none;white-space:nowrap;
 }
 .ym-balloon-route{
-  background:#fff;color:var(--brand);border:2px solid var(--brand);
+  background:#fff;color:var(--brand-ink);border:2px solid var(--brand);
   border-radius:999px;padding:7px 14px;font-weight:700;font-size:13.5px;
   text-decoration:none;white-space:nowrap;display:flex;align-items:center;
 }
-.ym-balloon-route:hover{background:var(--brand);color:#fff}
+.ym-balloon-route:hover{background:var(--brand-solid);color:#fff}
 /* Окно с несколькими квартирами в одном доме */
 .ym-balloon-multi{width:280px}
 .ym-flat-row{padding:10px 0 8px;border-top:1px solid var(--line);margin-top:8px}
 .ym-flat-row:first-of-type{border-top:none;margin-top:0}
 .ym-flat-row b{display:block;font-size:14px}
-.ym-flat-price{color:var(--brand);font-weight:800;font-size:14px}
+.ym-flat-price{color:var(--brand-ink);font-weight:800;font-size:14px}
 .ym-flat-buttons{display:flex;gap:8px;margin-top:6px}
 .ym-flat-buttons .ym-balloon-go{padding:7px 14px;font-size:13px}
 .ym-flat-buttons .ym-balloon-route{padding:5px 12px;font-size:12.5px}
@@ -342,14 +355,17 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .modal-backdrop{position:absolute;inset:0;background:rgba(35,26,18,.55);backdrop-filter:blur(4px)}
 .modal-card{
   position:relative;background:var(--card);border-radius:24px;max-width:860px;width:100%;
-  max-height:92vh;overflow:auto;display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow-lg);
+  max-height:92vh;max-height:92dvh;overflow:auto;overscroll-behavior:contain;
+  display:grid;grid-template-columns:1fr 1fr;align-items:start;
+  box-shadow:var(--shadow-lg);
 }
 .modal-close{
-  position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
+  position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;
   border:none;background:rgba(255,255,255,.9);font-size:16px;z-index:2;box-shadow:var(--shadow);
 }
-.modal-gallery{background:var(--bg-alt)}
-.modal-gallery img{width:100%;height:100%;min-height:320px;object-fit:cover}
+.modal-gallery{background:var(--bg-alt);position:sticky;top:0;align-self:start}
+.modal-gallery img{width:100%;height:auto;min-height:0;display:block;object-fit:cover}
 .modal-thumbs{display:flex;gap:8px;padding:12px}
 .modal-thumbs img{width:64px;height:48px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent}
 .modal-thumbs img.active{border-color:var(--brand)}
@@ -359,12 +375,19 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .modal-desc{color:var(--muted);font-size:15px}
 .modal-calc{background:var(--bg-alt);border-radius:14px;padding:16px}
 .calc-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.calc-row label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.calc-row select{
+  width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;
+  background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;
+  font-size:15px;font-weight:600;text-transform:none;letter-spacing:normal;
+}
+.calc-row select:focus{outline:none;border-color:var(--brand)}
 .calc-total{font-family:'Unbounded';font-size:22px;color:var(--brand);text-align:center}
 
 /* ---------- Страница квартиры (flat.html) ---------- */
 .flat-page{background:var(--bg)}
 .crumbs{padding:20px 0 6px;font-size:14px;color:var(--muted);font-weight:600}
-.crumbs a:hover{color:var(--brand)}
+.crumbs a:hover{color:var(--brand-ink)}
 .flat-layout{
   display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:36px;
   align-items:start;padding:16px 0 40px;
@@ -410,13 +433,13 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .book-price b{font-family:'Unbounded';font-size:30px;color:var(--ink)}
 .book-price span{color:var(--muted);font-weight:600;font-size:14px}
 .book-rating{font-weight:700;font-size:14.5px}
-.stars-inline{color:var(--teal)}
+.stars-inline{color:var(--teal-ink)}
 .book-form-gap{display:flex;flex-direction:column;gap:12px}
 .book-total{background:var(--bg-alt);border-radius:12px;padding:12px 14px;font-size:15px;color:var(--muted)}
-.book-total b{font-family:'Unbounded';color:var(--brand);font-size:18px}
+.book-total b{font-family:'Unbounded';color:var(--brand-ink);font-size:18px}
 .book-total s{opacity:.6}
 .book-contacts{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:14px;font-weight:700;font-size:14.5px}
-.book-contacts a:hover{color:var(--brand)}
+.book-contacts a:hover{color:var(--brand-ink)}
 .book-mini{
   background:var(--bg-alt);border:1px solid var(--line);border-radius:var(--radius);
   padding:18px 20px;display:flex;flex-direction:column;gap:8px;font-weight:600;
@@ -428,7 +451,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 
 @media (max-width:1024px){
   .flat-layout{grid-template-columns:1fr;gap:24px}
-  .flat-side{position:static;order:-1}
+  .flat-side{position:static}
   .flat-similar .cards{grid-template-columns:repeat(2,1fr)}
 }
 @media (max-width:720px){
@@ -437,14 +460,17 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .book-card{padding:18px}
   .book-price b{font-size:26px}
   .g-thumbs img{width:76px;height:52px}
-  .gallery .s-arrow{width:36px;height:36px;font-size:22px}
+  .gallery .s-arrow{width:44px;height:44px;font-size:22px}
 }
 
 /* ---------- Toast ---------- */
 .toast{
-  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
-  background:var(--dark);color:#fff;padding:14px 26px;border-radius:999px;
-  font-weight:700;font-size:15px;box-shadow:var(--shadow-lg);z-index:120;
+  position:fixed;bottom:28px;bottom:calc(28px + env(safe-area-inset-bottom,0px));
+  left:50%;transform:translateX(-50%);
+  background:var(--dark);color:#fff;padding:14px 22px;border-radius:16px;
+  font-weight:700;font-size:15px;line-height:1.35;text-align:center;
+  box-shadow:var(--shadow-lg);z-index:120;
+  width:max-content;max-width:min(560px,calc(100vw - 32px));
 }
 
 /* ---------- Reveal animation ---------- */
@@ -461,23 +487,37 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .booking-inner{grid-template-columns:1fr;gap:36px}
   .contacts-grid{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
-  @media (max-width:900px){
-    .nav{
-      position:fixed;top:70px;right:0;left:0;background:var(--bg);
-      flex-direction:column;padding:20px 6%;gap:16px;border-bottom:1px solid var(--line);
-      transform:translateY(-140%);transition:.3s;z-index:40;
-    }
-    .nav.open{transform:none}
-    .burger{display:flex}
-    .phone{display:none}
+}
+/* 901–1100 px: логотип + меню + телефон + кнопка не помещаются в строку.
+   Кнопку «Забронировать» убираем — она остаётся в первом экране и в блоке брони. */
+@media (max-width:1100px){
+  .nav{gap:14px}
+  .nav a{font-size:14.5px}
+  .header-actions .btn-sm{display:none}
+}
+/* Мобильное меню: вынесено из блока 1024px, чтобы не зависеть от вложенности */
+@media (max-width:900px){
+  .nav{
+    position:absolute;top:100%;right:0;left:0;background:var(--bg);
+    flex-direction:column;padding:10px 6% 18px;gap:0;border-bottom:1px solid var(--line);
+    box-shadow:0 20px 34px rgba(43,33,24,.14);z-index:40;
+    max-height:calc(100vh - 100%);max-height:calc(100dvh - 100%);overflow-y:auto;
+    overscroll-behavior:contain;
+    transform:translateY(-140%);visibility:hidden;
+    transition:transform .3s,visibility .3s;
   }
+  .nav.open{transform:none;visibility:visible}
+  .nav a{padding:12px 0;font-size:16px;border-bottom:1px solid var(--line)}
+  .nav a:last-child{border-bottom:none}
+  .burger{display:flex;min-width:44px;min-height:44px;justify-content:center}
+  .phone{display:none}
 }
 @media (max-width:720px){
   .modal-card{grid-template-columns:1fr}
   .section{padding:60px 0}
   .hero{padding:50px 0 60px}
   .header-actions .btn-sm{display:none}
-  .header .hs{width:32px;height:32px;border-radius:10px;font-size:11.5px}
+  .header .hs{width:40px;height:40px;border-radius:11px;font-size:11.5px}
   .header-inner{gap:8px}
   .logo-mark{width:34px;height:34px;font-size:16px;border-radius:9px}
   .logo-text{font-size:15.5px}
@@ -488,7 +528,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .steps{grid-template-columns:1fr}
 
   /* --- Слайдер на мобильных --- */
-  .s-arrow{width:32px;height:32px;font-size:20px;top:42%}
+  .s-arrow{width:44px;height:44px;font-size:22px;top:42%}
   .s-prev{left:8px}
   .s-next{right:8px}
   .s-count{top:10px;right:10px}
@@ -525,7 +565,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 
   /* --- Статистика 2x2, компактнее --- */
   .stats{padding:0 0 24px}
-  .stats-grid{gap:12px}
+  .stats-grid{gap:12px;grid-auto-rows:1fr}
   .stat{padding:14px 10px}
   .stat b{font-size:24px;line-height:1.1}
   .stat span{font-size:12px;line-height:1.3}
@@ -535,7 +575,7 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .section-head{margin-bottom:24px}
   .section-sub{font-size:15px}
   .filters{gap:8px;margin-bottom:22px}
-  .chip{padding:8px 14px;font-size:13px}
+  .chip{padding:0 14px;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
   .adv{padding:20px}
   .adv h3{font-size:16.5px}
   .adv p{font-size:14px}
@@ -552,10 +592,11 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .contacts-card{padding:16px 18px}
   .contacts-card h3{font-size:15.5px}
   .contacts-card p{font-size:13.5px}
-  #flatMap{height:320px}
+  #flatMap{height:clamp(340px,48vh,420px)}
   .modal{padding:10px}
-  .modal-card{max-height:96vh;border-radius:18px}
+  .modal-card{max-height:96vh;max-height:96dvh;border-radius:18px}
   .modal-body{padding:16px}
+  .modal-gallery{position:static}
   .modal-gallery img{min-height:0;aspect-ratio:4/3;height:auto}
   .modal-thumbs{padding:8px}
   .modal-thumbs img{width:54px;height:40px}
@@ -569,11 +610,11 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
 .cp-card{
   position:relative;background:#fff;border-radius:22px;box-shadow:var(--shadow-lg);
   padding:26px;width:100%;max-width:430px;min-width:0;margin:auto;
-  max-height:92vh;overflow:auto;
+  max-height:92vh;max-height:92dvh;overflow:auto;
   display:flex;flex-direction:column;gap:12px;
 }
 .cp-close{
-  position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;
+  position:absolute;top:8px;right:8px;width:44px;height:44px;border-radius:50%;
   border:none;background:var(--bg-alt);color:var(--muted);font-size:15px;cursor:pointer;
 }
 .cp-close:hover{background:var(--line);color:var(--dark)}
@@ -599,7 +640,7 @@ a.cp-main:hover .cp-go{transform:translateX(3px);color:var(--brand)}
 .cp-go{margin-left:auto;color:var(--muted);font-size:20px;transition:.2s;flex:none}
 .cp-actions{display:flex;flex-direction:column;gap:6px;flex:none}
 .cp-call{
-  background:var(--brand);color:#fff;font-weight:700;font-size:13.5px;
+  background:var(--brand-solid);color:#fff;font-weight:700;font-size:13.5px;
   padding:8px 14px;border-radius:999px;text-decoration:none;text-align:center;white-space:nowrap;
 }
 .cp-call:hover{filter:brightness(1.06)}
@@ -608,28 +649,28 @@ a.cp-main:hover .cp-go{transform:translateX(3px);color:var(--brand)}
   font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;cursor:pointer;
   white-space:nowrap;font-family:inherit;flex:none;
 }
-.cp-copy:hover{border-color:var(--brand);color:var(--brand)}
-.cp-copy.copied{border-color:var(--brand);color:var(--brand);background:#fdf3ef}
+.cp-copy:hover{border-color:var(--brand);color:var(--brand-ink)}
+.cp-copy.copied{border-color:var(--brand);color:var(--brand-ink);background:#fdf3ef}
 .cp-note{color:var(--muted);font-size:12.5px;text-align:center;margin:2px 0 0}
 /* Подсказка про прокси для Telegram (РФ-блокировки) */
 .cp-proxy{color:var(--muted);font-size:12.5px;margin:2px 0 2px;padding-left:2px}
-.cp-proxy a{color:var(--brand);text-decoration:none;font-weight:600;white-space:nowrap}
+.cp-proxy a{color:var(--brand-ink);text-decoration:none;font-weight:600;white-space:nowrap}
 .cp-proxy a:hover{text-decoration:underline}
 /* Пошаговая инструкция Telegram: большие кнопки, максимум простоты */
 .cp-guide{border:1px solid var(--line);background:#fffaf6;border-radius:14px;padding:12px 12px 10px;margin:4px 0 12px}
 .cp-guide-title{font-weight:800;font-size:14.5px;margin-bottom:8px}
 .cp-step{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:start;padding:7px 0;border-top:1px dashed var(--line)}
 .cp-step:first-of-type{border-top:none}
-.cp-step-n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;font-size:12.5px;margin-top:2px}
+.cp-step-n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--brand-solid);color:#fff;font-weight:800;font-size:12.5px;margin-top:2px}
 .cp-step b{font-size:13.5px;display:block}
 .cp-step small{color:var(--muted);font-size:12px;display:block;margin-top:1px}
-.cp-guide-btn{grid-column:1 / -1;display:block;text-align:center;background:var(--brand);color:#fff !important;font-weight:700;font-size:14.5px;padding:11px 14px;border-radius:10px;text-decoration:none;margin-top:4px}
-.cp-guide-btn:hover{filter:brightness(.95)}
-.cp-grand-btn{background:#2eb82e}
+.cp-guide-btn{grid-column:1 / -1;display:flex;align-items:center;justify-content:center;min-height:44px;text-align:center;background:var(--brand-solid);color:#fff !important;font-weight:700;font-size:14.5px;padding:11px 14px;border-radius:10px;text-decoration:none;margin-top:4px;line-height:1.3}
+.cp-guide-btn:hover{filter:brightness(.92)}
+.cp-grand-btn{background:var(--green)}
 .cp-miss{color:var(--muted);font-size:12px;margin:8px 0 0}
-.cp-miss a{color:var(--brand);font-weight:600;text-decoration:none}
+.cp-miss a{color:var(--brand-ink);font-weight:600;text-decoration:none}
 .tg-proxy-hint{color:var(--muted);font-weight:400;font-size:12px}
-.tg-proxy-hint a{color:var(--brand);text-decoration:none;font-weight:600;white-space:nowrap}
+.tg-proxy-hint a{color:var(--brand-ink);text-decoration:none;font-weight:600;white-space:nowrap}
 .tg-proxy-hint a:hover{text-decoration:underline}
 @media (max-width:520px){
   .cp-pop{padding:10px}
@@ -638,3 +679,119 @@ a.cp-main:hover .cp-go{transform:translateX(3px);color:var(--brand)}
   .cp-actions{width:100%;flex-direction:row}
   .cp-actions .cp-call,.cp-actions .cp-copy{flex:1}
 }
+
+/* ============================================================
+   Правки после аудита: доступность, состояния, заглушка карты
+   ============================================================ */
+
+/* Липкая шапка не должна накрывать заголовки при переходе по якорям */
+#catalog,#advantages,#reviews,#faq,#contacts,#booking,#steps{scroll-margin-top:92px}
+@media (max-width:720px){
+  #catalog,#advantages,#reviews,#faq,#contacts,#booking,#steps,#flatMap{scroll-margin-top:76px}
+}
+
+/* Быстрый просмотр: фото в карточке ведёт себя как кнопка */
+.card-media[role="button"]{cursor:zoom-in}
+.card-media[role="button"]:focus-visible{outline:3px solid var(--brand);outline-offset:-3px}
+@media (hover:hover) and (pointer:fine){
+  .card-media[role="button"]::after{
+    content:'Быстрый просмотр';
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);
+    background:rgba(35,26,18,.8);color:#fff;font-weight:700;font-size:13px;
+    padding:9px 16px;border-radius:999px;white-space:nowrap;
+    opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;
+  }
+  .card-media[role="button"]:hover::after,
+  .card-media[role="button"]:focus-visible::after{opacity:1;transform:translate(-50%,-50%)}
+}
+
+/* Клавиатурный фокус заметен везде, а не только в полях */
+a:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible{
+  outline:3px solid var(--brand);outline-offset:2px;
+}
+.header .hs:focus-visible,.s-arrow:focus-visible,.s-dot:focus-visible{outline-offset:1px}
+
+/* Кнопки-точки слайдера: зона нажатия 24×24 задана в .s-dot выше */
+
+/* Старая цена в калькуляторе — не спорит с итоговой суммой */
+.calc-total s{color:var(--muted);font-weight:600;font-family:'Manrope',system-ui,sans-serif;font-size:15px}
+.calc-total b{white-space:nowrap}
+
+/* Ошибка в поле телефона */
+.field input.is-invalid,.field input.is-invalid:focus{border-color:#D93A2B;background:#fdf1ef;box-shadow:0 0 0 3px rgba(217,58,43,.12)}
+
+/* Заглушка карты: держим ту же высоту, что и у #flatMap, — без сдвига вёрстки */
+#flatMap.map-fallback{
+  height:auto;min-height:420px;max-height:560px;overflow:auto;
+  background:repeating-linear-gradient(45deg,var(--bg-alt),var(--bg-alt) 14px,#fff 14px,#fff 28px);
+}
+.map-fallback-inner{display:flex;flex-direction:column;gap:12px;padding:18px}
+.map-fallback-head{display:flex;flex-direction:column;gap:2px}
+.map-fallback-head b{font-size:16px}
+.map-fallback-head span{color:var(--muted);font-size:13px}
+.map-fallback-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.map-fallback-list a{
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 10px;
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;
+  color:inherit;text-decoration:none;font-size:14px;transition:border-color .2s;
+}
+.map-fallback-list a:hover{border-color:var(--brand)}
+.map-fallback-list b{font-weight:700}
+.map-fallback-list span{color:var(--brand-ink);font-weight:800;white-space:nowrap}
+.map-fallback-inner .btn{align-self:flex-start;margin-top:2px}
+
+@media (max-width:720px){
+  #flatMap.map-fallback{min-height:320px;max-height:none}
+  /* Заголовок карточки занимает две строки: карточки в колонке одной высоты */
+  .card-title{min-height:2.7em}
+  /* Крупнее зона нажатия у бургера и соцсетей */
+  .burger{min-width:44px;min-height:44px;justify-content:center;margin-right:-4px}
+}
+
+/* ============ Правки по отчёту аудита: контраст и адаптивность ============ */
+
+/* Границы интерактивных элементов — 3:1 к подложке (WCAG 1.4.11).
+   У декоративных рамок карточек остаётся мягкий --line, чтобы вид не тяжелел. */
+.field input,.field select,.chip,.header .hs,.btn-ghost,.faq-item,
+.cp-row,.cp-copy,.map-fallback-list a{border-color:var(--line-strong)}
+
+/* Иконки соцсетей в шапке больше не сжимаются флексом (было 33.6 px при 38 px) */
+.header .hs{flex:0 0 auto}
+
+/* Фильтры: одна высота нажатия на всех разрешениях (было 41 px на десктопе) */
+.chip{min-height:44px;display:inline-flex;align-items:center}
+
+/* Миниатюры галереи на телефоне: мягкая привязка и предсказуемая прокрутка */
+.g-thumbs{scroll-snap-type:x proximity;overscroll-behavior-x:contain;scroll-padding-left:2px}
+.g-thumbs img{scroll-snap-align:start}
+
+/* Карта на телефоне: не фиксированные 320 px, а по высоте экрана (340–420 px) */
+@media (max-width:720px){
+  #flatMap:not(.map-fallback){height:clamp(340px,48vh,420px)}
+}
+
+/* Очень узкие экраны 320–380 px: шапка и формы помещаются без давки на иконки */
+@media (max-width:380px){
+  .container{width:calc(100% - 20px)}
+  .header-inner{gap:6px}
+  .logo{gap:7px}
+  .logo-mark{width:30px;height:30px;border-radius:8px}
+  .logo-text{font-size:13.5px}
+  .header-actions{gap:3px}
+  .header .hs{width:38px;height:38px;border-radius:10px}
+  .burger{min-width:40px;min-height:40px;margin-right:0;padding:0;justify-content:center}
+  .filters{gap:6px}
+  .chip{padding:0 12px}
+  .hero-title{font-size:23px}
+  .hero-sub{font-size:14.5px}
+  .stat b{font-size:22px}
+  .stat span{font-size:11.5px}
+  .btn{padding:13px 20px;font-size:15px}
+  .btn-lg{padding:15px 22px;font-size:15.5px}
+  .search-card{padding:16px}
+  .search-title{font-size:18px}
+  .cp-card{padding:18px 14px}
+  .cp-guide-btn{font-size:13.5px;padding:10px 12px}
+  .toast{padding:12px 16px;font-size:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+}
+
