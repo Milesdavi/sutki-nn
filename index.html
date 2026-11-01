@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Unbounded:wght@500;700;900&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=17">
+<link rel="stylesheet" href="styles.css?v=18">
 <script>document.documentElement.className+=" js";</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23E4572E'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='Arial'>С</text></svg>">
 </head>
@@ -346,6 +346,15 @@
   </div>
 </div>
 
+<!-- Плавающая кнопка к карте: всегда под рукой при скролле -->
+<button type="button" class="map-fab" id="mapFab" aria-label="Показать карту квартир" title="Карта квартир">
+  <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 3 3 5.5v15L9 18l6 3 6-2.5v-15L15 6 9 3Z"></path>
+    <path d="M9 3v15"></path>
+    <path d="M15 6v15"></path>
+  </svg>
+</button>
+
 <div class="toast" id="toast" hidden></div>
 
 <script src="https://api-maps.yandex.ru/v3/?apikey=f1e00c1d-72c6-45f5-abe2-8d5a169cfa6f&amp;lang=ru_RU"></script>
@@ -353,6 +362,6 @@
 <script src="data.js?v=1"></script>
 <script src="slider.js?v=2"></script>
 <script src="contact.js?v=8"></script>
-<script src="app.js?v=21"></script>
+<script src="app.js?v=22"></script>
 </body>
 </html>

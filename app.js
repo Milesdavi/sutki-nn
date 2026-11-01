@@ -607,3 +607,13 @@ const statObs = ('IntersectionObserver' in window && !calmMotion)
 document.querySelectorAll('.stat [data-count]').forEach(el => {
   if (statObs) statObs.observe(el); else setCount(el);
 });
+/* Плавающая кнопка к карте: плавный скролл к основному блоку с картой */
+(() => {
+  const fab = $('#mapFab');
+  const map = $('#flatMap');
+  if (!fab || !map) return;
+  fab.addEventListener('click', () => {
+    const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    map.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' });
+  });
+})();

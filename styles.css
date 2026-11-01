@@ -524,6 +524,28 @@ h1,h2,h3,.logo-text,.search-title{font-family:'Unbounded',sans-serif;font-weight
   .gallery .s-arrow{width:44px;height:44px;font-size:22px}
 }
 
+/* ---------- Плавающая кнопка к карте ---------- */
+.map-fab{
+  position:fixed;z-index:60;
+  right:max(16px, env(safe-area-inset-right, 0px));
+  bottom:max(20px, calc(20px + env(safe-area-inset-bottom, 0px)));
+  width:52px;height:52px;border:none;border-radius:50%;
+  display:grid;place-items:center;
+  background:#fff;color:var(--brand-ink);
+  box-shadow:0 8px 24px rgba(43,33,24,.18), 0 0 0 1px var(--line);
+  transition:transform .2s, box-shadow .2s, background .2s, color .2s;
+}
+.map-fab:hover{background:var(--brand-ink);color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px rgba(43,33,24,.26)}
+.map-fab:active{transform:none}
+.map-fab svg{display:block}
+@media (max-width:520px){
+  .map-fab{
+    width:48px;height:48px;
+    right:max(12px, env(safe-area-inset-right, 0px));
+    bottom:max(16px, calc(16px + env(safe-area-inset-bottom, 0px)));
+  }
+}
+
 /* ---------- Toast ---------- */
 .toast{
   position:fixed;bottom:28px;bottom:calc(28px + env(safe-area-inset-bottom,0px));
